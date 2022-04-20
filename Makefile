@@ -5,8 +5,12 @@ CFLAGS = -Wall -Wextra -Werror -O2
 INC = -I inc -I libft -I mlx 
 
 SRC_F = main.c
+MINILIBX_F = hooks.c
+
 
 SRC = $(addprefix src/, $(SRC_F)) 
+SRC += $(addprefix src/minilibx/, $(MINILIBX_F))
+
 OBJ = $(SRC:.c=.o)
 
 LIBFT = ./libft/libft.a
@@ -42,4 +46,7 @@ debug: $(OBJ)
 	$(MAKE) -C ./libft debug
 	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBFT) -o $(NAME)
 
-.PHONY: all clean fclean re debug
+norm:
+	norminette src/ inc/
+
+.PHONY: all clean fclean re debug norm
