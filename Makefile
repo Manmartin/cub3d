@@ -1,4 +1,5 @@
-SRCS	= src/main.c src/read_utils.c src/read_scene.c src/freezers.c
+SRCS	= src/main.c src/read_utils.c src/read_scene.c src/freezers.c \
+		  src/temporary_utils.c
  
 INC		= -Ilibft/ -Iinc/
 
