@@ -9,6 +9,44 @@ int	read_scene(t_scene_data *scene)
 	return (0);
 }
 
+int	parse_colors(t_scene_data *scene, int fd)
+{
+	int		sep_rgb[3];
+	char	*line;
+	char	*aux;
+
+	line = get_next_line(fd);
+	if (ft_strncmp(line, "F ", 2) == 0)
+	{
+		aux = line + 2;
+		sep_rgb[0] = ft_atoi(aux);
+		aux = ft_strchr(aux, ',') + 1;
+		sep_rgb[1] = ft_atoi(aux);
+		aux = ft_strchr(aux, ',') + 1;
+		sep_rgb[2] = ft_atoi(aux);
+		scene->floor_color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
+		free(line);
+	}
+	else
+		return (1);
+	line = get_next_line(fd);
+	if (ft_strncmp(line, "C ", 2) == 0)
+	{
+		aux = line + 2;
+		sep_rgb[0] = ft_atoi(aux);
+		aux = ft_strchr(aux, ',') + 1;
+		sep_rgb[1] = ft_atoi(aux);
+		aux = ft_strchr(aux, ',') + 1;
+		sep_rgb[2] = ft_atoi(aux);
+		scene->ceilling_color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
+		free(line);
+	}
+	else
+		return (1);
+	printf("%u, %u\n", scene->floor_color, scene->ceilling_color);
+	return (0);
+}
+
 int		parse_texture_paths(t_scene_data *scene, int fd)
 {
 	size_t	i;
@@ -20,7 +58,6 @@ int		parse_texture_paths(t_scene_data *scene, int fd)
 	scene->cardinal[2] = ft_strdup("WE ");
 	scene->cardinal[3] = ft_strdup("EA ");
 	i = 0;
-//	scene->textures = malloc(sizeof(char *) * 4);
 	while (i < 4)
 	{
 		line = get_next_line(fd);
@@ -38,6 +75,8 @@ int		parse_texture_paths(t_scene_data *scene, int fd)
 		}
 		i++;
 	}
+	line = get_next_line(fd);
+	free(line);
 	return (0);
 }
 
@@ -58,13 +97,9 @@ int		parse_map(t_scene_data *scene)
 		ft_putstr_fd("Error parsing texture paths\n", 2);
 		return (1);
 	}
-	while (i < 4)
-	{
-		line = get_next_line(fd);
-		free(line);
-		i++;
-	}
-	i = 0;
+	parse_colors(scene, fd);
+	line = get_next_line(fd);
+	free(line);
 	scene->map = malloc(sizeof(char *) * (scene->height + 1));
 	line = get_next_line(fd);
 	while (line)

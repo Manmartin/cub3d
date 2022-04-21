@@ -11,8 +11,8 @@ typedef struct s_scene_data
 	char	*scene_path;
 	char	*textures[4];
 	char	*cardinal[4];
-	int		floor_color;
-	int		ceilling_color;
+	unsigned int		floor_color;
+	unsigned int		ceilling_color;
 	char	**map;
 	size_t	width;
 	size_t	height;
