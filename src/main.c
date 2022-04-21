@@ -8,5 +8,6 @@ int main(void)
 	read_scene(data.scene);
 
 	freezers(&data);
+	system("leaks cub3d");
 	return (0);
 }

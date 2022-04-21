@@ -1,12 +1,11 @@
 #include "cub3d.h"
 
-
 int	read_scene(t_scene_data *scene)
 {
 	get_scene_size(&scene->width, &scene->height);
 	parse_map(scene);
 	print_map(scene);
-	printf("width %li, height %li", scene->width, scene->height);
+//	printf("width %li, height %li", scene->width, scene->height);
 	return (0);
 }
 
@@ -24,7 +23,8 @@ int		parse_map(t_scene_data *scene)
 		perror("error opening scene file");
 	while (i < 8)
 	{
-		get_next_line(fd);
+		line = get_next_line(fd);
+		free(line);
 		i++;
 	}
 	i = 0;
@@ -45,9 +45,12 @@ int		parse_map(t_scene_data *scene)
 		}
 		scene->map[i][j] = 0;
 		j = 0;
+		free(line);
 		line = get_next_line(fd);
 		i++;
 	}
+	if (line)
+		free(line);
 	scene->map[i] = 0;
 	close(fd);
 	return (0);
@@ -69,7 +72,8 @@ void	get_scene_size(size_t *scene_width, size_t *scene_height)
 		perror("error opening scene file");
 	while (i < 8)
 	{
-		get_next_line(fd);
+		line = get_next_line(fd);
+		free(line);	
 		i++;
 	}
 	line = get_next_line(fd);
@@ -80,9 +84,12 @@ void	get_scene_size(size_t *scene_width, size_t *scene_height)
 		if (width > 0 && line[width - 1] == '\n')
 			width--;
 		printf("%s", line);
+		free(line);
 		line = get_next_line(fd);
 		height++;
 	}
+	if (line)
+		free(line);
 	close(fd);
 	*scene_width = width;
 	*scene_height = height;
