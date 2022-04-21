@@ -5,7 +5,39 @@ int	read_scene(t_scene_data *scene)
 	get_scene_size(&scene->width, &scene->height);
 	parse_map(scene);
 	print_map(scene);
-//	printf("width %li, height %li", scene->width, scene->height);
+	printf("width %li, height %li", scene->width, scene->height);
+	return (0);
+}
+
+int		parse_texture_paths(t_scene_data *scene, int fd)
+{
+	size_t	i;
+	char	*line;
+	char	*aux;
+
+	scene->cardinal[0] = ft_strdup("NO ");
+	scene->cardinal[1] = ft_strdup("SO ");
+	scene->cardinal[2] = ft_strdup("WE ");
+	scene->cardinal[3] = ft_strdup("EA ");
+	i = 0;
+//	scene->textures = malloc(sizeof(char *) * 4);
+	while (i < 4)
+	{
+		line = get_next_line(fd);
+		aux = line;
+		if (ft_strncmp(aux, scene->cardinal[i], 3) == 0)
+		{
+			aux += 3;
+			scene->textures[i] = ft_substr(aux, 0, ft_strchr(aux, '\n') - aux);
+			free(line);
+		}
+		else
+		{
+			free(line);
+			return (1);
+		}
+		i++;
+	}
 	return (0);
 }
 
@@ -18,10 +50,15 @@ int		parse_map(t_scene_data *scene)
 
 	i = 0;
 	j = 0;
-	fd = open("sample.cub", O_RDONLY);
+	fd = open(scene->scene_path, O_RDONLY);
 	if (fd < 0)
 		perror("error opening scene file");
-	while (i < 8)
+	if (parse_texture_paths(scene, fd) == 1)
+	{
+		ft_putstr_fd("Error parsing texture paths\n", 2);
+		return (1);
+	}
+	while (i < 4)
 	{
 		line = get_next_line(fd);
 		free(line);

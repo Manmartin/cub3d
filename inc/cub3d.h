@@ -8,10 +8,9 @@
 
 typedef struct s_scene_data
 {
-	char	*north_texture;
-	char	*south_texture;
-	char	*west_texture;
-	char	*east_texture;
+	char	*scene_path;
+	char	*textures[4];
+	char	*cardinal[4];
 	int		floor_color;
 	int		ceilling_color;
 	char	**map;

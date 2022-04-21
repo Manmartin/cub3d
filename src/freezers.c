@@ -13,8 +13,22 @@ void	free_map(t_scene_data *scene)
 	free(scene->map);
 }
 
+void	free_textures(t_scene_data *scene)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		free(scene->textures[i]);
+		free(scene->cardinal[i]);
+		i++;
+	}
+}
+
 void	freezers(t_data *data)
 {
 	free_map(data->scene);
+	free_textures(data->scene);
 	free(data->scene);
 }
