@@ -15,6 +15,7 @@ OBJ = $(SRC:.c=.o)
 
 LIBFT = ./libft/libft.a
 MLX = ./mlx/libmlx.a
+MLX_LINUX = ./mlx_linux/libmlx.a
 
 all: $(NAME)
 
@@ -28,13 +29,21 @@ $(LIBFT):
 $(MLX):
 	$(MAKE) -C ./mlx
 
+$(MLX_LINUX):
+	$(MAKE) -C ./mlx_linux
+
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit  -o $@
+
+linux: INC = -I inc -I libft -I mlx_linux -I /usr/include
+linux: $(OBJ) $(LIBFT) $(MLX_LINUX)
+		$(CC) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 clean:
 	rm -rf $(OBJ)
 	$(MAKE) -C ./libft fclean
 	$(MAKE) -C ./mlx clean
+	$(MAKE) -C ./mlx_linux clean
 
 fclean: clean
 	rm -rf $(NAME)
