@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:28:55 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/23 18:14:07 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/04/23 18:32:59 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ typedef struct s_data {
 	void	*win;
 }				t_data;
 
-/* hooks.c */
+/* minilibx */
+void	main_loop(t_data *data);
 int		keys_hook(int keycode, t_data *data);
 
-/* utils.c */
+/* utils */
 int		clean_exit(t_data *data);
 
 #endif

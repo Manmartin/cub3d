@@ -5,10 +5,10 @@ CFLAGS = -Wall -Wextra -Werror -O2
 INC = -I inc -I libft -I mlx
 MACROS = -I ./inc/mac
 
-
-SRC_F = main.c
-UTILS_F = utils.c
-MINILIBX_F = hooks.c
+SRC_F = 		main.c
+UTILS_F = 		utils.c
+MINILIBX_F =	main_loop.c \
+				hooks.c
 
 
 SRC = $(addprefix src/, $(SRC_F)) 
