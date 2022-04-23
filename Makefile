@@ -2,7 +2,9 @@ NAME = cub3d
 
 CC = clang
 CFLAGS = -Wall -Wextra -Werror -O2
-INC = -I inc -I libft -I mlx 
+INC = -I inc -I libft -I mlx
+MACROS = -I ./inc/mac
+
 
 SRC_F = main.c
 MINILIBX_F = hooks.c
@@ -33,7 +35,7 @@ $(MLX_LINUX):
 	$(MAKE) -C ./mlx_linux
 
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit  -o $@
+	$(CC) $(CFLAGS) $(INC) $(MACROS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit  -o $@
 
 linux: INC = -I inc -I libft -I mlx_linux -I /usr/include
 linux: $(OBJ) $(LIBFT) $(MLX_LINUX)
