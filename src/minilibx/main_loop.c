@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:27:38 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/23 18:33:52 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/04/23 19:04:53 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	main_loop(t_data *data)
 	img.img = mlx_new_image(data->mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
-	mlx_key_hook(data->win, keys_hook, &data);
-	mlx_hook(data->win, 17, 0L, clean_exit, &data);
+	mlx_do_key_autorepeaton(data->mlx);
+	mlx_hook(data->win, 2, 1L, keys_hook, &data);
 	mlx_put_image_to_window(data->mlx, data->win, img.img, 0, 0);
 	mlx_loop(data->mlx);
 }
