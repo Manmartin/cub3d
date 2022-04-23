@@ -7,10 +7,12 @@ MACROS = -I ./inc/mac
 
 
 SRC_F = main.c
+UTILS_F = utils.c
 MINILIBX_F = hooks.c
 
 
 SRC = $(addprefix src/, $(SRC_F)) 
+SRC += $(addprefix src/utils/, $(UTILS_F))
 SRC += $(addprefix src/minilibx/, $(MINILIBX_F))
 
 OBJ = $(SRC:.c=.o)
@@ -22,7 +24,7 @@ MLX_LINUX = ./mlx_linux/libmlx.a
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INC) -c $^ -o $@
+	$(CC) $(CFLAGS) $(INC) $(MACROS) -c $^ -o $@
 
 
 $(LIBFT):
@@ -37,6 +39,7 @@ $(MLX_LINUX):
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(INC) $(MACROS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit  -o $@
 
+linux: MACROS = -I ./inc/linux
 linux: INC = -I inc -I libft -I mlx_linux -I /usr/include
 linux: $(OBJ) $(LIBFT) $(MLX_LINUX)
 		$(CC) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
@@ -45,7 +48,6 @@ clean:
 	rm -rf $(OBJ)
 	$(MAKE) -C ./libft fclean
 	$(MAKE) -C ./mlx clean
-	$(MAKE) -C ./mlx_linux clean
 
 fclean: clean
 	rm -rf $(NAME)
