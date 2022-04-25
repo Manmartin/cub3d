@@ -28,7 +28,6 @@ int main(int argc, char **argv)
 	data.game->player = ft_calloc(1, sizeof(t_vec));
 	data.game->dir = ft_calloc(1, sizeof(t_vec));
 	read_scene(&data,data.scene);
-	printf("{%f}\n", data.game->player->x);
 	main_loop(&data);	
 	freezers(&data);
 	return (0);
