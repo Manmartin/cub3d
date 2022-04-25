@@ -31,4 +31,7 @@ void	freezers(t_data *data)
 	free_map(data->scene);
 	free_textures(data->scene);
 	free(data->scene);
+	free(data->game->player);
+	free(data->game->dir);
+	free(data->game);
 }

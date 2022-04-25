@@ -1,11 +1,11 @@
 #include "cub3d.h"
 
-int	read_scene(t_scene_data *scene)
+int	read_scene(t_data *data,t_scene_data *scene)
 {
 	get_scene_size(&scene->width, &scene->height);
-	parse_map(scene);
+	parse_map(data, scene);
 	print_map(scene);
-	printf("width %li, height %li", scene->width, scene->height);
+	//printf("width %li, height %li", scene->width, scene->height);
 	return (0);
 }
 
@@ -80,7 +80,7 @@ int		parse_texture_paths(t_scene_data *scene, int fd)
 	return (0);
 }
 
-int		parse_map(t_scene_data *scene)
+int		parse_map(t_data *data, t_scene_data *scene)
 {
 	size_t	i;
 	size_t	j;
@@ -108,6 +108,12 @@ int		parse_map(t_scene_data *scene)
 		while (j < ft_strlen(line) - 1)
 		{
 			scene->map[i][j] = line[j];
+			if (line[j] == 'N')
+			{
+				data->game->player->x = j;
+				data->game->player->y = i;
+				printf("[%f %f]\n", data->game->player->x, data->game->player->y);
+			}
 			j++;
 		}
 		while (j < scene->width)

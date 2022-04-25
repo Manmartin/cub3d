@@ -13,7 +13,8 @@ SRC_F = 		main.c \
 
 UTILS_F = 		utils.c
 MINILIBX_F =	main_loop.c \
-				hooks.c
+				hooks.c \
+				render.c
 
 
 SRC = $(addprefix src/, $(SRC_F)) 
@@ -60,9 +61,8 @@ fclean: clean
 re: fclean all
 
 debug: CFLAGS = -Wall -Wextra -Werror -g3 
-debug: $(OBJ)
-	$(MAKE) -C ./libft debug
-	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBFT) -o $(NAME)
+debug: $(OBJ) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(INC) $(MACROS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit  -o $@
 
 norm:
 	norminette src/ inc/
