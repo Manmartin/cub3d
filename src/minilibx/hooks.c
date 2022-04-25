@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:15:07 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/25 19:56:30 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/04/25 20:42:28 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static void	move_x(t_data *data, int mv)
 	player = data->game->player;
 	if (data->scene->map[(int)player->y][(int)player->x + mv] != '1')
 		player->x += mv;
-	printf("%f ", data->game->player->x);
-	printf("%f\n", data->game->player->y);
+	render(data);
 }
 
 static void	move_y(t_data *data, int mv)
@@ -32,8 +31,7 @@ static void	move_y(t_data *data, int mv)
 	player = data->game->player;
 	if (data->scene->map[(int)player->y + mv][(int)player->x] != '1')
 		player->y += mv;
-	printf("%f ", data->game->player->x);
-	printf("%f\n", data->game->player->y);
+	render(data);
 }
 
 static void	rotate(t_data *data, int mv)

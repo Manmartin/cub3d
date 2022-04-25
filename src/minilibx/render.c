@@ -6,7 +6,7 @@
 /*   By: manmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 19:34:54 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/25 20:13:38 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/04/25 20:45:29 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,50 @@ void put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	put_sqrt(int x, int y, int size, t_img *img)
+void	put_sqrt(int x, int y, int size, int color, t_img *img)
 {
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
-			put_pixel(img, x + j, y + i, 255);
+			put_pixel(img, x + j, y + i, color);
 }
 
 
+void	make_map(t_data *data)
+{
+	int size;
+	size_t coorx;
+	size_t coory;
+	int color;
+	t_vec *player;
+	t_scene_data *s;
+
+	s = data->scene;
+	size = 80;
+
+
+	player = data->game->player;
+	for (int i = -4; i <= 5; i++)
+	{
+		for (int j = -4; j <= 5;j++)
+		{
+			coorx = player->x + j;
+			coory = player->y + i;
+			if (coorx >= s->width || coorx < 0 || coory >= s->height || coory < 0)
+				put_sqrt((j + 4) * 80, (i + 4) * 80, 80, 0, &data->img);
+			else 
+			{
+				color = (s->map[coory][coorx] == '1' ? 255 : 255 << 8);
+				put_sqrt((j + 4) * 80, (i + 4) * 80, 80, color, &data->img);
+				put_sqrt(4 * 80,  4 * 80, 80, 255 << 16, &data->img);
+			}
+		}
+	}
+	
+}
+
 void	render(t_data *data)
 {
-	(void)data;
 	mlx_clear_window(data->mlx, data->win);
-	put_sqrt(10, 10, 50, &data->img);
+	make_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 }
