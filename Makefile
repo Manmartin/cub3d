@@ -1,35 +1,70 @@
-SRCS	= src/main.c src/read_utils.c src/read_scene.c src/freezers.c \
-		  src/temporary_utils.c
- 
-INC		= -Ilibft/ -Iinc/
+NAME = cub3d
 
-CC		= gcc
+CC = clang
+CFLAGS = -Wall -Wextra -Werror -O2
+INC = -I inc -I libft -I mlx
+MACROS = -I ./inc/mac
 
-OBJS	= $(SRCS:.c=.o)
+SRC_F = 		main.c \
+				temporary_utils.c \
+				read_utils.c \
+				read_scene.c \
+				freezers.c
 
-CFLAGS	= -Wall -Wextra -Werror 
+UTILS_F = 		utils.c
+MINILIBX_F =	main_loop.c \
+				hooks.c
 
-NAME	= cub3d
 
-RM		= rm -f
+SRC = $(addprefix src/, $(SRC_F)) 
+SRC += $(addprefix src/utils/, $(UTILS_F))
+SRC += $(addprefix src/minilibx/, $(MINILIBX_F))
 
-%.o:%.c
-			$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) $(INC) 
+OBJ = $(SRC:.c=.o)
 
-$(NAME):	$(OBJS)
-			@make -C libft/ --silent
-			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(INC) -Llibft/ -lft 
+LIBFT = ./libft/libft.a
+MLX = ./mlx/libmlx.a
+MLX_LINUX = ./mlx_linux/libmlx.a
 
-all:		$(NAME)
+all: $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INC) $(MACROS) -c $^ -o $@
+
+
+$(LIBFT):
+	$(MAKE) -C ./libft
+
+$(MLX):
+	@$(MAKE) -C ./mlx
+
+$(MLX_LINUX):
+	@$(MAKE) -C ./mlx_linux
+
+$(NAME): $(OBJ) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(INC) $(MACROS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit  -o $@
+
+linux: MACROS = -I ./inc/linux
+linux: INC = -I inc -I libft -I mlx_linux -I /usr/include
+linux: $(OBJ) $(LIBFT) $(MLX_LINUX)
+		$(CC) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 clean:
-			$(RM) $(OBJS)
-			@make -C libft/ clean --silent
+	rm -rf $(OBJ)
+	$(MAKE) -C ./libft fclean
+	$(MAKE) -C ./mlx clean
 
-fclean:		clean
-			@make -C libft/ fclean --silent
-			$(RM) $(NAME)
+fclean: clean
+	rm -rf $(NAME)
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re
+debug: CFLAGS = -Wall -Wextra -Werror -g3 
+debug: $(OBJ)
+	$(MAKE) -C ./libft debug
+	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBFT) -o $(NAME)
+
+norm:
+	norminette src/ inc/
+
+.PHONY: all clean fclean re debug norm

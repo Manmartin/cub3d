@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: manmarti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
+/*   Updated: 2022/04/25 18:20:15 by manmarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int main(int argc, char **argv)
@@ -12,8 +24,7 @@ int main(int argc, char **argv)
 	data.scene = malloc(sizeof(t_scene_data));
 	data.scene->scene_path = argv[1];
 	read_scene(data.scene);
-
+	main_loop(data);	
 	freezers(&data);
-//	system("leaks cub3d");
 	return (0);
 }
