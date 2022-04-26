@@ -17,18 +17,20 @@ else
 	MLX_FLAGS = -framework OpenGL -framework AppKit
 endif
 
-SRC_F = 	main.c \
-		temporary_utils.c \
-		read_utils.c \
-		read_scene.c \
-		freezers.c
+SRC_F = 		main.c \
+				temporary_utils.c \
+				read_utils.c \
+				read_scene.c \
+				freezers.c
 
-UTILS_F = 	utils.c
+UTILS_F = 		utils.c \
+				vector.c
+
 MINILIBX_F =	main_loop.c \
-		hooks.c \
-		render.c
+				hooks.c \
+				render.c
 
-SRC = $(addprefix src/, $(SRC_F)) 
+SRC = $(addprefix src/, $(SRC_F))
 SRC += $(addprefix src/utils/, $(UTILS_F))
 SRC += $(addprefix src/minilibx/, $(MINILIBX_F))
 OBJ = $(SRC:.c=.o)
