@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manmarti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 19:34:54 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/25 20:45:29 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/04/26 20:32:33 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ void	make_map(t_data *data)
 			{
 				color = (s->map[coory][coorx] == '1' ? 255 : 255 << 8);
 				put_sqrt((j + 4) * 80, (i + 4) * 80, 80, color, &data->img);
-				put_sqrt(4 * 80,  4 * 80, 80, 255 << 16, &data->img);
 			}
 		}
 	}
-	
+	put_sqrt(4 * 80,  4 * 80, 80, 255 << 16, &data->img);
+	put_sqrt((4  + (int)data->game->dir->x) * 80,  (4  + (int)data->game->dir->y) * 80, 80, 255 << 8 | 110 << 16 | 209, &data->img);
+
 }
 
 void	render(t_data *data)

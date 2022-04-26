@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:15:07 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/26 20:01:58 by manuel           ###   ########.fr       */
+/*   Updated: 2022/04/26 20:29:12 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ static void	move(t_data *data, double angle)
 	}
 }
 
-static void	rotate(t_data *data, int mv)
+static void	rotate(t_data *data, double angle)
 {
-	printf("Rotate: %i\n", mv);
-	(void)data;
-	(void)mv;
+	*data->game->dir = rotate_vector(*data->game->dir, angle);
+	render(data);
 }
 
 int	keys_hook(int keycode, t_data *data)
@@ -51,8 +50,8 @@ int	keys_hook(int keycode, t_data *data)
 	else if (keycode == KEY_S)
 		move(data, M_PI);
 	else if (keycode == KEY_LEFT)
-		rotate(data, -1);
+		rotate(data, -M_PI_2);
 	else if (keycode == KEY_RIGHT)
-		rotate(data, 1);
+		rotate(data, M_PI_2);
 	return (keycode);
 }
