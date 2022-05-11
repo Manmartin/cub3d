@@ -6,7 +6,7 @@
 /*   By: manmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/11 20:41:18 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/05/11 22:14:41 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int main(int argc, char **argv)
 	data.game->player = ft_calloc(1, sizeof(t_vec));
 	data.game->dir = ft_calloc(1, sizeof(t_vec));
 	read_scene(&data,data.scene);
-//	main_loop(&data);
-//	freezers(&data);
+	main_loop(&data);
+	freezers(&data);
 //	system("leaks cub3d");
 	return (0);
 }
