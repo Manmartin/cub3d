@@ -6,7 +6,7 @@
 /*   By: manmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/11 20:55:48 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/05/11 21:33:59 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_scene_data
 {
 	char	*scene_path;
 	t_line	**scene_list;
+	t_line	*colors_start;
+	t_line	*map_start;
 	char	*textures[4];
 	char	*cardinal[4];
 	unsigned int		floor_color;
@@ -77,7 +79,7 @@ typedef struct s_data
 //read_scene.c
 int		copy_map(t_scene_data *scene);
 int		read_scene(t_data *data,t_scene_data *scene);
-void	get_scene_size(t_line **scene_list, size_t *scene_width, size_t *scene_height);
+void	get_scene_size(t_scene_data *scene, size_t *scene_width, size_t *scene_height);
 int		parse_map(t_data *data, t_scene_data *scene);
 
 //temporary_utils.c
