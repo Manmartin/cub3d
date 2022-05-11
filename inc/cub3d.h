@@ -6,7 +6,7 @@
 /*   By: manmarti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/25 19:44:06 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/05/11 20:55:48 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_vec {
 	double	y;
 }	t_vec;
 
-
 typedef struct s_img {
 	void	*img;
 	char	*addr;
@@ -38,9 +37,16 @@ typedef struct s_img {
 	int		endian;
 }				t_img;
 
+typedef struct s_line
+{
+	char *line;	
+	struct s_line *next;	
+}	t_line;
+
 typedef struct s_scene_data
 {
 	char	*scene_path;
+	t_line	**scene_list;
 	char	*textures[4];
 	char	*cardinal[4];
 	unsigned int		floor_color;
@@ -55,11 +61,9 @@ typedef struct s_game {
 	t_vec	*dir;
 }	t_game;
 
-
 typedef struct s_data
 {
 	t_scene_data	*scene;
-
 	void			*mlx;
 	void			*win;
 	t_img			img;
@@ -68,9 +72,12 @@ typedef struct s_data
 	
 }	t_data;
 
+
+
 //read_scene.c
+int		copy_map(t_scene_data *scene);
 int		read_scene(t_data *data,t_scene_data *scene);
-void	get_scene_size(size_t *scene_width, size_t *scene_height);
+void	get_scene_size(t_line **scene_list, size_t *scene_width, size_t *scene_height);
 int		parse_map(t_data *data, t_scene_data *scene);
 
 //temporary_utils.c
@@ -89,6 +96,8 @@ int		keys_hook(int keycode, t_data *data);
 void	render(t_data *data);
 void	put_pixel(t_img *img, int x, int y, int color);
 
+/* freezers */
+void	free_raw_scene(t_scene_data *scene);
 
 /* utils */
 int		clean_exit(t_data *data);

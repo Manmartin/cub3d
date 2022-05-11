@@ -2,11 +2,60 @@
 
 int	read_scene(t_data *data,t_scene_data *scene)
 {
-	get_scene_size(&scene->width, &scene->height);
-	parse_map(data, scene);
-	print_map(scene);
-	//printf("width %li, height %li", scene->width, scene->height);
+	copy_map(scene);
+	(void) data;
+	get_scene_size(scene->scene_list, &scene->width, &scene->height);
+//	parse_map(data, scene);
+//	print_map(scene);
+	printf("width %li, height %li", scene->width, scene->height);
 	return (0);
+}
+
+t_line	*get_line_as_list_element(char *aux_line)
+{
+	t_line *l;
+
+	l = malloc(sizeof(t_line));
+	l->next = 0;
+	l->line = aux_line;
+	return (l);
+}
+
+int	copy_map(t_scene_data *scene)
+{
+	int		fd;
+	t_line 	*l;
+	char	*aux_line;
+
+	l = 0;
+	fd = open(scene->scene_path, O_RDONLY);
+	if (fd < 1)
+		perror("error opening scene file");
+	scene->scene_list = malloc(sizeof(t_line *));
+	aux_line = get_next_line(fd);
+	if (aux_line)
+	{
+		l = get_line_as_list_element(aux_line);
+		*(scene->scene_list) = l;
+	}
+	aux_line = get_next_line(fd);
+	while (aux_line)
+	{
+		l->next = get_line_as_list_element(aux_line);
+		l = l->next;
+		printf("%s", l->line);
+		aux_line = get_next_line(fd);
+	}
+	l = *(scene->scene_list);
+//	printf("%s\n", l->line);
+/*	while (l)
+	{
+		printf("%s", l->line);
+		l = l->next;
+	}
+	*/
+	close(fd);
+	return (1);
 }
 
 int	parse_colors(t_scene_data *scene, int fd)
@@ -134,41 +183,28 @@ int		parse_map(t_data *data, t_scene_data *scene)
 	return (0);
 }
 
-void	get_scene_size(size_t *scene_width, size_t *scene_height)
+void	get_scene_size(t_line **raw_scene, size_t *scene_width, size_t *scene_height)
 {
-	char	*line;
-	int		fd;
 	int		i;
-	size_t	width;
-	size_t	height;
+	t_line	*l;
 
 	i = 0;
-	height = 0;
-	width = 0;
-	fd = open("sample.cub", O_RDONLY);
-	if (fd < 0)
-		perror("error opening scene file");
+	*scene_height = 0;
+	*scene_width = 0;
+	l = *raw_scene;
 	while (i < 8)
 	{
-		line = get_next_line(fd);
-		free(line);	
+		l = l->next;
 		i++;
 	}
-	line = get_next_line(fd);
-	while (line)
+	while (l)
 	{
-		if (ft_strlen(line) > width)
-			width = ft_strlen(line);
-		if (width > 0 && line[width - 1] == '\n')
-			width--;
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-		height++;
+		if (ft_strlen(l->line) > *scene_width)
+			*scene_width = ft_strlen(l->line);
+		if (*scene_width > 0 && l->line[*scene_width - 1] == '\n')
+			*scene_width -= 1;
+		printf("%s", l->line);
+		l = l->next;
+		(*scene_height) += 1;
 	}
-	if (line)
-		free(line);
-	close(fd);
-	*scene_width = width;
-	*scene_height = height;
 }
