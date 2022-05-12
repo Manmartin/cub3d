@@ -28,7 +28,11 @@ int main(int argc, char **argv)
 	data.game->player = ft_calloc(1, sizeof(t_vec));
 	data.game->dir = ft_calloc(1, sizeof(t_vec));
 	read_scene(&data,data.scene);
-	main_loop(&data);
+	data.scene->valid_map = 1;
+	if (check_valid_map(data.game->player->x, data.game->player->y, data.scene->map, data.scene) == -1)
+		ft_putstr_fd("--------->>>>> bad map <<<<-------\n", 2);
+	print_map(data.scene);
+//	main_loop(&data);
 	freezers(&data);
 //	system("leaks cub3d");
 	return (0);

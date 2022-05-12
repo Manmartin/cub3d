@@ -56,6 +56,7 @@ typedef struct s_scene_data
 	char	**map;
 	size_t	width;
 	size_t	height;
+	int		valid_map;
 }	t_scene_data;
 
 typedef struct s_game {
@@ -97,6 +98,9 @@ void	main_loop(t_data *data);
 int		keys_hook(int keycode, t_data *data);
 void	render(t_data *data);
 void	put_pixel(t_img *img, int x, int y, int color);
+
+/* check_map.c */
+int check_valid_map(size_t x, size_t y, char **map, t_scene_data *scene);
 
 /* freezers */
 void	free_raw_scene(t_scene_data *scene);

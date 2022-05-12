@@ -49,6 +49,7 @@ int	copy_map(t_scene_data *scene)
 	}
 	l = *(scene->scene_list);
 	close(fd);
+
 	return (1);
 }
 

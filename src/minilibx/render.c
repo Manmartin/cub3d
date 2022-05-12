@@ -30,7 +30,7 @@ void	put_sqrt(int x, int y, int size, int color, t_img *img)
 
 void	make_map(t_data *data)
 {
-	int size;
+//	int size;
 	size_t coorx;
 	size_t coory;
 	int color;
@@ -38,7 +38,7 @@ void	make_map(t_data *data)
 	t_scene_data *s;
 
 	s = data->scene;
-	size = 80;
+//	size = 80;
 
 
 	player = data->game->player;
