@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/19 16:07:38 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:18:03 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <macros.h>
 
 # define BUFFER_SIZE 100
+# define WIDTH 800
+# define HEIGHT 800
 
 typedef struct s_vec {
 	double	x;

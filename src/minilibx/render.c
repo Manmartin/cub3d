@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 19:34:54 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/19 16:49:06 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:17:07 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,27 +131,25 @@ static void	next_step(t_vec delta, t_vec ray, t_data *data, int x)
 		length = side_dist.x - delta.x;
 	else
 		length = side_dist.y - delta.y;
-	int lineHeight = (int)(800 / length);	
-	int drawStart = -lineHeight / 2 + 800 / 2;
+	int lineHeight = (int)(HEIGHT / length);	
+	int drawStart = -lineHeight / 2 + HEIGHT / 2;
 	if (drawStart < 0)
 		drawStart = 0;
-	int drawEnd = lineHeight / 2 + 800 / 2;
-	if (drawEnd >= 800)
-		drawEnd = 799;
+	int drawEnd = lineHeight / 2 + HEIGHT / 2;
+	if (drawEnd >= HEIGHT)
+		drawEnd = HEIGHT - 1;
 	draw_line(data, drawStart, drawEnd, x, side);
 }
 
 static void	ray_casting(t_data *data)
 {
-	int 	width;
 	double	cam_vec;
 	t_vec	ray;
 	t_vec	delta;
 
-	width = 800;
-	for (int x = 0; x < 800; x++)
+	for (int x = 0; x < WIDTH; x++)
 	{
-		cam_vec = x * 2 / (double)width - 1;
+		cam_vec = x * 2 / (double)WIDTH - 1;
 		ray.x = data->game->dir->x + data->game->cam->x * cam_vec;
 		ray.y = data->game->dir->y + data->game->cam->y * cam_vec;
 
