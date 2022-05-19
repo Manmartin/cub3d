@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:27:38 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/19 12:29:57 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:17:01 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	main_loop(t_data *data)
 	data->game->cam = malloc(sizeof(t_vec));
 	data->game->dir->x = 0;
 	data->game->dir->y = -1;
-	data->game->cam->x = 1;
+	data->game->cam->x = 0.5;
 	data->game->cam->y = 0;
 	render(data);
 	mlx_loop(data->mlx);

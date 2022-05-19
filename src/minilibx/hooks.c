@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:15:07 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/26 20:29:12 by manuel           ###   ########.fr       */
+/*   Updated: 2022/05/19 12:37:06 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	move(t_data *data, double angle)
 static void	rotate(t_data *data, double angle)
 {
 	*data->game->dir = rotate_vector(*data->game->dir, angle);
+	*data->game->cam = rotate_vector(*data->game->cam, angle);
 	render(data);
 }
 
