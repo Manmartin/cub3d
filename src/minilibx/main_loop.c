@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:27:38 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/19 15:17:01 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/05/20 18:22:11 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+static void	init_game_params(t_data *data)
+{
+	data->game->dir = malloc(sizeof(t_vec));
+	data->game->cam = malloc(sizeof(t_vec));
+	data->game->dir->x = 0;
+	data->game->dir->y = -1;
+	data->game->cam->x = 0.5;
+	data->game->cam->y = 0;
+}
 
 void	main_loop(t_data *data)
 {
@@ -25,12 +35,7 @@ void	main_loop(t_data *data)
 	mlx_do_key_autorepeaton(data->mlx);
 	mlx_hook(data->win, 2, 1L, keys_hook, data);
 	mlx_hook(data->win, 17, 0, clean_exit, data);
-	data->game->dir = malloc(sizeof(t_vec));
-	data->game->cam = malloc(sizeof(t_vec));
-	data->game->dir->x = 0;
-	data->game->dir->y = -1;
-	data->game->cam->x = 0.5;
-	data->game->cam->y = 0;
+	init_game_params(data);
 	render(data);
 	mlx_loop(data->mlx);
 }

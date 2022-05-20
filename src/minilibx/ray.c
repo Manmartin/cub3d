@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:25:54 by manuel            #+#    #+#             */
-/*   Updated: 2022/05/20 13:41:08 by manuel           ###   ########.fr       */
+/*   Updated: 2022/05/20 18:26:12 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@ static void	draw_line(t_data *data, t_ray ray, int side)
 
 	y = -1;
 	while (++y < ray.start)
-		put_pixel(&data->img, ray.column, y, 135 << 16 | 206 << 8 | 235);
+		put_pixel(&data->img, ray.column, y, data->scene->floor_color);
 	while (y >= ray.start && y <= ray.end)
 	{
-		if (side == 0 && ray.x < 0)
-			put_pixel(&data->img, ray.column, y, 255);
-		else if (side == 0)
-			put_pixel(&data->img, ray.column, y, 255 << 16);
-		else if (side == 1 && ray.y < 0)
+		if (side == 1 && ray.y < 0)
 			put_pixel(&data->img, ray.column, y, 255 << 16 | 193 << 8);
-		else
+		else if (side == 1)
 			put_pixel(&data->img, ray.column, y, 255 << 8);
+		else if (side == 0 && ray.x > 0)
+			put_pixel(&data->img, ray.column, y, 255 << 16);
+		else
+			put_pixel(&data->img, ray.column, y, 255);
 		y++;
 	}
 	while (y < HEIGHT)
 	{
-		put_pixel(&data->img, ray.column, y, 188 << 16 | 129 << 8 | 95);
+		put_pixel(&data->img, ray.column, y, data->scene->ceilling_color);
 		y++;
 	}
 }

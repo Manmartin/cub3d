@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/20 13:35:38 by manuel           ###   ########.fr       */
+/*   Updated: 2022/05/20 18:17:11 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void	cast_ray(t_ray ray, t_data *data);
 
 /* utils */
 int		clean_exit(t_data *data);
+t_vec	init_vector(double x, double y);
 t_vec	sum_vector(t_vec v1, t_vec v2);
 t_vec	rotate_vector(t_vec vec, double angle);
 
