@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/19 18:18:03 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:35:38 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,25 @@ typedef struct s_vec {
 	double	x;
 	double	y;
 }	t_vec;
+
+typedef struct s_ray
+{
+	int		column;
+	double	x;
+	double	y;
+
+	t_vec	delta;
+	t_vec	side_dist;
+	int		side;
+
+	int		start;
+	int		end;
+	int		height;
+
+	int		step_x;
+	int		step_y;
+
+}	t_ray;
 
 typedef struct s_img {
 	void	*img;
@@ -90,6 +109,9 @@ void	main_loop(t_data *data);
 int		keys_hook(int keycode, t_data *data);
 void	render(t_data *data);
 void	put_pixel(t_img *img, int x, int y, int color);
+
+/* ray.c */
+void	cast_ray(t_ray ray, t_data *data);
 
 /* utils */
 int		clean_exit(t_data *data);
