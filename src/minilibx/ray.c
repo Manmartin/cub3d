@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:25:54 by manuel            #+#    #+#             */
-/*   Updated: 2022/05/20 13:34:03 by manuel           ###   ########.fr       */
+/*   Updated: 2022/05/20 13:41:08 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ static void	draw_line(t_data *data, t_ray ray, int side)
 		put_pixel(&data->img, ray.column, y, 135 << 16 | 206 << 8 | 235);
 	while (y >= ray.start && y <= ray.end)
 	{
-		if (side == 0)
+		if (side == 0 && ray.x < 0)
 			put_pixel(&data->img, ray.column, y, 255);
+		else if (side == 0)
+			put_pixel(&data->img, ray.column, y, 255 << 16);
+		else if (side == 1 && ray.y < 0)
+			put_pixel(&data->img, ray.column, y, 255 << 16 | 193 << 8);
 		else
 			put_pixel(&data->img, ray.column, y, 255 << 8);
 		y++;
