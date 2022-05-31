@@ -1,5 +1,21 @@
 #include "cub3d.h"
 
+void	free_raw_scene(t_scene_data *scene)
+{
+	t_line	*l;
+	t_line	*aux;
+
+	l = *(scene->scene_list);
+	while (l)
+	{
+		aux = l->next;
+		free(l->line);
+		free(l);
+		l = aux;
+	}
+	free(scene->scene_list);
+}
+
 void	free_map(t_scene_data *scene)
 {
 	size_t	i;
@@ -30,6 +46,7 @@ void	freezers(t_data *data)
 {
 	free_map(data->scene);
 	free_textures(data->scene);
+	free_raw_scene(data->scene);
 	free(data->scene);
 	free(data->game->player);
 	free(data->game->dir);

@@ -21,7 +21,8 @@ SRC_F = 		main.c \
 				temporary_utils.c \
 				read_utils.c \
 				read_scene.c \
-				freezers.c
+				freezers.c \
+				check_map.c
 
 UTILS_F = 		utils.c \
 				vector.c

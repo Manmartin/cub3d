@@ -2,20 +2,64 @@
 
 int	read_scene(t_data *data,t_scene_data *scene)
 {
-	get_scene_size(&scene->width, &scene->height);
+	copy_map(scene);
+//	(void) data;
+	get_scene_size(scene, &scene->width, &scene->height);
 	parse_map(data, scene);
-	print_map(scene);
-	//printf("width %li, height %li", scene->width, scene->height);
+//	print_map(scene);
+	printf("width %li, height %li", scene->width, scene->height);
 	return (0);
 }
 
-int	parse_colors(t_scene_data *scene, int fd)
+t_line	*get_line_as_list_element(char *aux_line)
+{
+	t_line *l;
+
+	l = malloc(sizeof(t_line));
+	l->next = 0;
+	l->line = aux_line;
+	return (l);
+}
+
+int	copy_map(t_scene_data *scene)
+{
+	int		fd;
+	t_line 	*l;
+	char	*aux_line;
+
+	l = 0;
+	fd = open(scene->scene_path, O_RDONLY);
+	if (fd < 1)
+		perror("error opening scene file");
+	scene->scene_list = malloc(sizeof(t_line *));
+	aux_line = get_next_line(fd);
+	if (aux_line)
+	{
+		l = get_line_as_list_element(aux_line);
+		*(scene->scene_list) = l;
+		printf("%s", l->line);
+	}
+	aux_line = get_next_line(fd);
+	while (aux_line)
+	{
+		l->next = get_line_as_list_element(aux_line);
+		l = l->next;
+		printf("%s", l->line);
+		aux_line = get_next_line(fd);
+	}
+	l = *(scene->scene_list);
+	close(fd);
+
+	return (1);
+}
+
+int	parse_colors(t_scene_data *scene, t_line *l)
 {
 	int		sep_rgb[3];
 	char	*line;
 	char	*aux;
 
-	line = get_next_line(fd);
+	line = l->line;
 	if (ft_strncmp(line, "F ", 2) == 0)
 	{
 		aux = line + 2;
@@ -25,11 +69,11 @@ int	parse_colors(t_scene_data *scene, int fd)
 		aux = ft_strchr(aux, ',') + 1;
 		sep_rgb[2] = ft_atoi(aux);
 		scene->floor_color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
-		free(line);
 	}
 	else
 		return (1);
-	line = get_next_line(fd);
+	l = l->next;
+	line = l->line;
 	if (ft_strncmp(line, "C ", 2) == 0)
 	{
 		aux = line + 2;
@@ -39,18 +83,17 @@ int	parse_colors(t_scene_data *scene, int fd)
 		aux = ft_strchr(aux, ',') + 1;
 		sep_rgb[2] = ft_atoi(aux);
 		scene->ceilling_color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
-		free(line);
 	}
 	else
 		return (1);
 	printf("%u, %u\n", scene->floor_color, scene->ceilling_color);
+	l = l->next;
 	return (0);
 }
 
-int		parse_texture_paths(t_scene_data *scene, int fd)
+int		parse_texture_paths(t_scene_data *scene, t_line *l)
 {
 	size_t	i;
-	char	*line;
 	char	*aux;
 
 	scene->cardinal[0] = ft_strdup("NO ");
@@ -60,23 +103,18 @@ int		parse_texture_paths(t_scene_data *scene, int fd)
 	i = 0;
 	while (i < 4)
 	{
-		line = get_next_line(fd);
-		aux = line;
+		aux = l->line;
 		if (ft_strncmp(aux, scene->cardinal[i], 3) == 0)
 		{
 			aux += 3;
 			scene->textures[i] = ft_substr(aux, 0, ft_strchr(aux, '\n') - aux);
-			free(line);
 		}
 		else
-		{
-			free(line);
 			return (1);
-		}
+		l = l->next;
 		i++;
 	}
-	line = get_next_line(fd);
-	free(line);
+	l = l->next;
 	return (0);
 }
 
@@ -84,31 +122,25 @@ int		parse_map(t_data *data, t_scene_data *scene)
 {
 	size_t	i;
 	size_t	j;
-	size_t	fd;
-	char	*line;
+	t_line	*l;
 
 	i = 0;
 	j = 0;
-	fd = open(scene->scene_path, O_RDONLY);
-	if (fd < 0)
-		perror("error opening scene file");
-	if (parse_texture_paths(scene, fd) == 1)
+	l = scene->map_start;
+	if (parse_texture_paths(scene, *(scene->scene_list)) == 1)
 	{
 		ft_putstr_fd("Error parsing texture paths\n", 2);
 		return (1);
 	}
-	parse_colors(scene, fd);
-	line = get_next_line(fd);
-	free(line);
+	parse_colors(scene, scene->colors_start);
 	scene->map = malloc(sizeof(char *) * (scene->height + 1));
-	line = get_next_line(fd);
-	while (line)
+	while (l)
 	{
 		scene->map[i] = malloc(sizeof(char) * scene->width + 1);
-		while (j < ft_strlen(line) - 1)
+		while (j < ft_strlen(l->line) - 1)
 		{
-			scene->map[i][j] = line[j];
-			if (line[j] == 'N')
+			scene->map[i][j] = l->line[j];
+			if (l->line[j] == 'N')
 			{
 				data->game->player->x = j;
 				data->game->player->y = i;
@@ -123,52 +155,38 @@ int		parse_map(t_data *data, t_scene_data *scene)
 		}
 		scene->map[i][j] = 0;
 		j = 0;
-		free(line);
-		line = get_next_line(fd);
+		l = l->next;
 		i++;
 	}
-	if (line)
-		free(line);
 	scene->map[i] = 0;
-	close(fd);
 	return (0);
 }
 
-void	get_scene_size(size_t *scene_width, size_t *scene_height)
+void	get_scene_size(t_scene_data *scene, size_t *scene_width, size_t *scene_height)
 {
-	char	*line;
-	int		fd;
 	int		i;
-	size_t	width;
-	size_t	height;
+	t_line	*l;
 
 	i = 0;
-	height = 0;
-	width = 0;
-	fd = open("sample.cub", O_RDONLY);
-	if (fd < 0)
-		perror("error opening scene file");
+	*scene_height = 0;
+	*scene_width = 0;
+	l = *(scene->scene_list);
 	while (i < 8)
 	{
-		line = get_next_line(fd);
-		free(line);	
+		if (i == 5)
+			scene->colors_start = l;
+		l = l->next;
 		i++;
 	}
-	line = get_next_line(fd);
-	while (line)
+	if (l)
+		scene->map_start = l;
+	while (l)
 	{
-		if (ft_strlen(line) > width)
-			width = ft_strlen(line);
-		if (width > 0 && line[width - 1] == '\n')
-			width--;
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-		height++;
+		if (ft_strlen(l->line) > *scene_width)
+			*scene_width = ft_strlen(l->line);
+		if (*scene_width > 0 && l->line[*scene_width - 1] == '\n')
+			*scene_width -= 1;
+		l = l->next;
+		(*scene_height) += 1;
 	}
-	if (line)
-		free(line);
-	close(fd);
-	*scene_width = width;
-	*scene_height = height;
 }
