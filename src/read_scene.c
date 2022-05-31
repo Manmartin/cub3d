@@ -30,21 +30,24 @@ int	copy_map(t_scene_data *scene)
 	l = 0;
 	fd = open(scene->scene_path, O_RDONLY);
 	if (fd < 1)
+	{
 		perror("error opening scene file");
+		return (1);
+	}
 	scene->scene_list = malloc(sizeof(t_line *));
 	aux_line = get_next_line(fd);
 	if (aux_line)
 	{
 		l = get_line_as_list_element(aux_line);
 		*(scene->scene_list) = l;
-		printf("%s", l->line);
+//		printf("%s", l->line);
 	}
 	aux_line = get_next_line(fd);
 	while (aux_line)
 	{
 		l->next = get_line_as_list_element(aux_line);
 		l = l->next;
-		printf("%s", l->line);
+//		printf("%s", l->line);
 		aux_line = get_next_line(fd);
 	}
 	l = *(scene->scene_list);
@@ -86,7 +89,7 @@ int	parse_colors(t_scene_data *scene, t_line *l)
 	}
 	else
 		return (1);
-	printf("%u, %u\n", scene->floor_color, scene->ceilling_color);
+//	printf("%u, %u\n", scene->floor_color, scene->ceilling_color);
 	l = l->next;
 	return (0);
 }

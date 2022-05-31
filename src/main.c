@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/31 20:09:02 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/05/31 20:45:14 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 {
 	t_data	data;
 
-	atexit(leaks_check);
+//	atexit(leaks_check);
 	if (argc != 2)
 	{
 		ft_putstr_fd("Usage ./cub3d scene.cub\n", 1);
@@ -31,9 +31,8 @@ int main(int argc, char **argv)
 	data.scene->scene_path = argv[1];
 	data.game = ft_calloc(1, sizeof(t_game));
 	data.game->player = ft_calloc(1, sizeof(t_vec));
-	read_scene(&data,data.scene);
 	data.scene->valid_map = 1;
-
+	read_scene(&data,data.scene);
 	check_valid_map(data.game->player->x, data.game->player->y, data.scene->map, data.scene);
 	if (data.scene->valid_map == 0)
 	{

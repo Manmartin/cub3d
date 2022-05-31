@@ -12,10 +12,7 @@ int check_valid_map(size_t x, size_t y, char **map, t_scene_data *scene)
 	else if (map[y][x] == '1' || map[y][x] == 'x')
 		return (0);
 	else
-	{
 		scene->valid_map = 0;
-		return (-1);
-	}
 	if (scene->valid_map == 0)
 		return (-1);
 	check_valid_map(x, y + 1, map, scene);
