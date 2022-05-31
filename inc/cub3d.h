@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/20 18:17:11 by manuel           ###   ########.fr       */
+/*   Updated: 2022/05/31 17:30:41 by manuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # define WIDTH 800
 # define HEIGHT 800
 
+# define NORTH 0
+# define SOUTH 1
+# define WEST 2
+# define EAST 3
+
 typedef struct s_vec {
 	double	x;
 	double	y;
@@ -43,6 +48,7 @@ typedef struct s_ray
 	t_vec	side_dist;
 	int		side;
 
+	double	length;
 	int		start;
 	int		end;
 	int		height;
@@ -58,6 +64,8 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }				t_img;
 
 typedef struct s_scene_data
@@ -65,6 +73,7 @@ typedef struct s_scene_data
 	char			*scene_path;
 	char			*textures[4];
 	char			*cardinal[4];
+	t_img			tex_img[4];
 	unsigned int	floor_color;
 	unsigned int	ceilling_color;
 	char			**map;
@@ -109,6 +118,8 @@ void	main_loop(t_data *data);
 int		keys_hook(int keycode, t_data *data);
 void	render(t_data *data);
 void	put_pixel(t_img *img, int x, int y, int color);
+void	load_textures(t_data *data);
+void	put_texture(t_data	*data, t_ray ray, int side);
 
 /* ray.c */
 void	cast_ray(t_ray ray, t_data *data);

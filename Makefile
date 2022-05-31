@@ -29,7 +29,8 @@ UTILS_F = 		utils.c \
 MINILIBX_F =	main_loop.c \
 				hooks.c \
 				render.c \
-				ray.c
+				ray.c \
+				texture.c
 
 SRC = $(addprefix src/, $(SRC_F))
 SRC += $(addprefix src/utils/, $(UTILS_F))
