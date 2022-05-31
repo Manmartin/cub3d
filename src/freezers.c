@@ -47,8 +47,11 @@ void	freezers(t_data *data)
 	free_map(data->scene);
 	free_textures(data->scene);
 	free_raw_scene(data->scene);
+	if (data->scene->valid_map)
+		mlx_destroy_image(data->mlx, data->img.img);
 	free(data->scene);
 	free(data->game->player);
 	free(data->game->dir);
+	free(data->game->cam);
 	free(data->game);
 }

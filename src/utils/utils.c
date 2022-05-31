@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 17:21:43 by manmarti          #+#    #+#             */
-/*   Updated: 2022/04/23 18:14:20 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/05/31 19:40:59 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int	clean_exit(t_data *data)
 {
-	(void)data;
+	freezers(data);
 	exit(0);
 	return (0);
 }
