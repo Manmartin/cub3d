@@ -6,7 +6,7 @@ int	read_scene(t_data *data,t_scene_data *scene)
 		return (1);
 //	(void) data;
 	get_scene_size(scene, &scene->width, &scene->height);
-	if (parse_map(data, scene))
+	if (parse_scene(data, scene))
 		return (1);
 //	print_map(scene);
 	printf("width %li, height %li", scene->width, scene->height);
@@ -17,6 +17,8 @@ t_line	*get_line_as_list_element(char *aux_line)
 {
 	t_line *l;
 
+	if (!aux_line)
+		return (0);
 	l = malloc(sizeof(t_line));
 	l->next = 0;
 	l->line = aux_line;
@@ -38,19 +40,21 @@ int	copy_map(t_scene_data *scene)
 	}
 	scene->scene_list = malloc(sizeof(t_line *));
 	aux_line = get_next_line(fd);
-	if (aux_line)
+	if (!aux_line)
 	{
-		l = get_line_as_list_element(aux_line);
-		*(scene->scene_list) = l;
+		ft_putstr_fd("Empty map\n", 2);
+		return (1);
 	}
-	aux_line = get_next_line(fd);
+	l = get_line_as_list_element(aux_line);
+	*(scene->scene_list) = l;
+	ft_putstr_fd(aux_line, 2);
 	while (aux_line)
 	{
+		aux_line = get_next_line(fd);
+		ft_putstr_fd(aux_line, 2);
 		l->next = get_line_as_list_element(aux_line);
 		l = l->next;
-		aux_line = get_next_line(fd);
 	}
-	l = *(scene->scene_list);
 	close(fd);
 	return (0);
 }
@@ -133,7 +137,7 @@ int		parse_texture_paths(t_scene_data *scene, t_line *l)
 	return (0);
 }
 
-int		parse_map(t_data *data, t_scene_data *scene)
+int		parse_scene(t_data *data, t_scene_data *scene)
 {
 	size_t	i;
 	size_t	j;

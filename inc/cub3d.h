@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/03 20:42:17 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/03 22:25:58 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		read_scene(t_data *data, t_scene_data *scene);
 int		copy_map(t_scene_data *scene);
 int		read_scene(t_data *data,t_scene_data *scene);
 void	get_scene_size(t_scene_data *scene, size_t *scene_width, size_t *scene_height);
-int		parse_map(t_data *data, t_scene_data *scene);
+int		parse_scene(t_data *data, t_scene_data *scene);
 
 //temporary_utils.c
 void	print_map(t_scene_data *scene);

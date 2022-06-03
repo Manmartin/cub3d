@@ -63,7 +63,7 @@ fclean: clean
 
 re: fclean all
 
-debug: CFLAGS = -Wall -Wextra -Werror -g3
+debug: CFLAGS = -Wall -Wextra -Werror -g0 -fsanitize=address
 debug: $(OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBFT) $(MLX) $(MLX_FLAGS) -o $(NAME)
 
