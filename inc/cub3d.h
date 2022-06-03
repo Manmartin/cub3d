@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/03 22:25:58 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/03 23:45:10 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ typedef struct s_scene_data
 	int	floor_color;
 	int	ceilling_color;
 	char	**map;
-	size_t	width;
-	size_t	height;
+	long	width;
+	long	height;
 	int		valid_map;
 }	t_scene_data;
 
@@ -95,6 +95,7 @@ typedef struct s_game {
 	t_vec	*player;
 	t_vec	*dir;
 	t_vec	*cam;
+	int		found_player;
 }	t_game;
 
 typedef struct s_data
@@ -113,7 +114,7 @@ typedef struct s_data
 int		read_scene(t_data *data, t_scene_data *scene);
 int		copy_map(t_scene_data *scene);
 int		read_scene(t_data *data,t_scene_data *scene);
-void	get_scene_size(t_scene_data *scene, size_t *scene_width, size_t *scene_height);
+int		get_scene_size(t_scene_data *scene, long *scene_width, long *scene_height);
 int		parse_scene(t_data *data, t_scene_data *scene);
 
 //temporary_utils.c
@@ -137,7 +138,7 @@ void	put_texture(t_data	*data, t_ray ray, int side);
 /* ray.c */
 void	cast_ray(t_ray ray, t_data *data);
 /* check_map.c */
-int check_valid_map(size_t x, size_t y, char **map, t_scene_data *scene);
+int check_valid_map(long x, long y, char **map, t_scene_data *scene);
 
 /* freezers */
 void	free_raw_scene(t_scene_data *scene);

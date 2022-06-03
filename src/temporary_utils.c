@@ -2,7 +2,7 @@
 
 void	print_map(t_scene_data *scene)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < 4)

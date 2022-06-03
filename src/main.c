@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/03 20:08:52 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/04 00:28:18 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ int main(int argc, char **argv)
 	data.scene->scene_path = argv[1];
 	data.game = ft_calloc(1, sizeof(t_game));
 	data.game->player = ft_calloc(1, sizeof(t_vec));
+	data.game->player->x = 0;
+	data.game->player->y = 0;
+	data.game->found_player = 0;
 	data.scene->valid_map = 1;
 	if (read_scene(&data,data.scene))
 	{
@@ -38,13 +41,14 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	check_valid_map(data.game->player->x, data.game->player->y, data.scene->map, data.scene);
+	print_map(data.scene);
 	if (data.scene->valid_map == 0)
 	{
-		ft_putstr_fd("--------->>>>> bad map <<<<-------\n", 2);
+		ft_putstr_fd("Wrong map\n", 2);
 		freezers(&data);
 		return (1);
 	}
-	print_map(data.scene);
+//	print_map(data.scene);
 	main_loop(&data);
 	return (0);
 }

@@ -1,0 +1,13 @@
+NO ./wall2.xpm
+SO ./wall.xpm
+WE ./wall2.xpm
+EA ./wall.xpm
+
+F 135,206,235
+C 188,129,95
+
+1111
+1N00
+1000
+1000
+1111
