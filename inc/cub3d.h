@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/05/31 17:53:29 by manuel           ###   ########.fr       */
+/*   Updated: 2022/06/03 20:42:17 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ typedef struct s_scene_data
 	char	*textures[4];
 	t_img	tex_img[4];
 	char	*cardinal[4];
-	unsigned int	floor_color;
-	unsigned int	ceilling_color;
+	int	floor_color;
+	int	ceilling_color;
 	char	**map;
 	size_t	width;
 	size_t	height;
@@ -141,6 +141,8 @@ int check_valid_map(size_t x, size_t y, char **map, t_scene_data *scene);
 
 /* freezers */
 void	free_raw_scene(t_scene_data *scene);
+int		free_cardinals(t_scene_data *scene);
+int		free_textures(t_scene_data *scene);
 
 /* utils */
 int		clean_exit(t_data *data);

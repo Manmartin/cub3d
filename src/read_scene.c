@@ -2,10 +2,12 @@
 
 int	read_scene(t_data *data,t_scene_data *scene)
 {
-	copy_map(scene);
+	if (copy_map(scene))
+		return (1);
 //	(void) data;
 	get_scene_size(scene, &scene->width, &scene->height);
-	parse_map(data, scene);
+	if (parse_map(data, scene))
+		return (1);
 //	print_map(scene);
 	printf("width %li, height %li", scene->width, scene->height);
 	return (0);
@@ -40,55 +42,64 @@ int	copy_map(t_scene_data *scene)
 	{
 		l = get_line_as_list_element(aux_line);
 		*(scene->scene_list) = l;
-//		printf("%s", l->line);
 	}
 	aux_line = get_next_line(fd);
 	while (aux_line)
 	{
 		l->next = get_line_as_list_element(aux_line);
 		l = l->next;
-//		printf("%s", l->line);
 		aux_line = get_next_line(fd);
 	}
 	l = *(scene->scene_list);
 	close(fd);
+	return (0);
+}
 
-	return (1);
+int	parse_colors_2(char *line)
+{
+	int		sep_rgb[3];
+	char	*aux;
+	int		color;
+
+	aux = line + 2;
+	if (!aux || ft_strlen(aux) == 0 || *(aux) == ',')
+		return (-1);
+	sep_rgb[0] = ft_atoi(aux);
+	aux = ft_strchr(aux, ',');
+	printf("aux%s\n", aux);
+	if (!aux || ft_strlen(aux) <= 1 || *(++aux) == ',')
+		return (-1);
+	sep_rgb[1] = ft_atoi(aux);
+	aux = ft_strchr(aux, ',');
+	printf("aux11: %s\n", aux);
+	if (!aux || ft_strlen(aux) <= 2)
+		return (-1);
+	printf("eoooo %zu\n", ft_strlen(aux));
+	sep_rgb[2] = ft_atoi(++aux);
+	color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
+	return (color);
 }
 
 int	parse_colors(t_scene_data *scene, t_line *l)
 {
-	int		sep_rgb[3];
-	char	*line;
-	char	*aux;
-
-	line = l->line;
-	if (ft_strncmp(line, "F ", 2) == 0)
+	if (ft_strncmp(l->line, "F ", 2) == 0)
 	{
-		aux = line + 2;
-		sep_rgb[0] = ft_atoi(aux);
-		aux = ft_strchr(aux, ',') + 1;
-		sep_rgb[1] = ft_atoi(aux);
-		aux = ft_strchr(aux, ',') + 1;
-		sep_rgb[2] = ft_atoi(aux);
-		scene->floor_color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
+		scene->floor_color = parse_colors_2(l->line);
+		if (scene->floor_color == -1)
+			return (1);
 	}
 	else
 		return (1);
 	l = l->next;
-	line = l->line;
-	if (ft_strncmp(line, "C ", 2) == 0)
+	if (ft_strncmp(l->line, "C ", 2) == 0)
 	{
-		aux = line + 2;
-		sep_rgb[0] = ft_atoi(aux);
-		aux = ft_strchr(aux, ',') + 1;
-		sep_rgb[1] = ft_atoi(aux);
-		aux = ft_strchr(aux, ',') + 1;
-		sep_rgb[2] = ft_atoi(aux);
-		scene->ceilling_color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
+		scene->ceilling_color = parse_colors_2(l->line);
+		if (scene->ceilling_color == -1)
+			return (1);
 	}
 	else
 		return (1);
+	printf("color ok\n");
 //	printf("%u, %u\n", scene->floor_color, scene->ceilling_color);
 	l = l->next;
 	return (0);
@@ -113,11 +124,12 @@ int		parse_texture_paths(t_scene_data *scene, t_line *l)
 			scene->textures[i] = ft_substr(aux, 0, ft_strchr(aux, '\n') - aux);
 		}
 		else
-			return (1);
+			return (free_cardinals(scene));
 		l = l->next;
 		i++;
 	}
 	l = l->next;
+	free_cardinals(scene);
 	return (0);
 }
 
@@ -135,7 +147,11 @@ int		parse_map(t_data *data, t_scene_data *scene)
 		ft_putstr_fd("Error parsing texture paths\n", 2);
 		return (1);
 	}
-	parse_colors(scene, scene->colors_start);
+	if (parse_colors(scene, scene->colors_start))
+	{
+		ft_putstr_fd("Error parsing colors, invalid map\n", 2);
+		return (1);
+	}
 	scene->map = malloc(sizeof(char *) * (scene->height + 1));
 	while (l)
 	{

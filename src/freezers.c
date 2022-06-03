@@ -29,7 +29,7 @@ void	free_map(t_scene_data *scene)
 	free(scene->map);
 }
 
-void	free_textures(t_scene_data *scene)
+int	free_textures(t_scene_data *scene)
 {
 	int	i;
 
@@ -37,9 +37,23 @@ void	free_textures(t_scene_data *scene)
 	while (i < 4)
 	{
 		free(scene->textures[i]);
+		i++;
+	}
+	return (1);
+}
+
+// return 1	in case it's used in parse_texture_paths() 
+int	free_cardinals(t_scene_data *scene)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
 		free(scene->cardinal[i]);
 		i++;
 	}
+	return (1);
 }
 
 void	freezers(t_data *data)
