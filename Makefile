@@ -20,7 +20,10 @@ endif
 SRC_F = 		main.c \
 				temporary_utils.c \
 				read_utils.c \
+				read_utils_2.c \
 				read_scene.c \
+				read_checks_1.c \
+				read_colors.c \
 				freezers.c \
 				check_map.c
 

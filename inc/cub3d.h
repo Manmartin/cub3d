@@ -117,6 +117,17 @@ int		read_scene(t_data *data,t_scene_data *scene);
 int		get_scene_size(t_scene_data *scene, long *scene_width, long *scene_height);
 int		parse_scene(t_data *data, t_scene_data *scene);
 
+//read_checks_1.c
+int		check_texture_names(t_scene_data *scene);
+int		check_input_schema(t_scene_data *scene);
+
+//read_colors.c
+int	parse_colors(t_scene_data *scene, t_line *l);
+int	parse_colors_2(char *line);
+
+//read_utils_2.c
+t_line	*get_line_as_list_element(char *aux_line);
+
 //temporary_utils.c
 void	print_map(t_scene_data *scene);
 
