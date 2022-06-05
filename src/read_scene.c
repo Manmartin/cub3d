@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_scene.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
+/*   Updated: 2022/06/05 23:27:20 by albgarci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int	read_scene(t_data *data, t_scene_data *scene)
@@ -17,7 +29,10 @@ int	read_scene(t_data *data, t_scene_data *scene)
 		return (1);
 	}
 	if (parse_scene(data, scene))
+		return (1);
+	if (data->game->found_player == 0)
 	{
+		ft_putstr_fd("Error\nNo player found\n", 2);
 		return (1);
 	}
 	return (0);
@@ -75,6 +90,32 @@ int	parse_scene_previous_checks(t_data *data, t_scene_data *scene)
 	return (0);
 }
 
+int	parse_scene_operations(t_data *data, int i, int j, char c)
+{
+	if (ft_strchr("NSEW", c))
+	{
+		if (data->game->found_player == 0)
+			data->game->found_player = 1;
+		else
+		{
+			free_map_partially(data->scene, i + 1);
+			free_basics(data, data->scene);
+			ft_putstr_fd("Error\n2 players found\n", 2);
+			return (1);
+		}
+		data->game->player->x = j;
+		data->game->player->y = i;
+	}
+	else if (ft_strchr(" 10", c) == 0)
+	{
+		ft_putstr_fd("Error\nUnexpected character\n", 2);
+		ft_putchar_fd(c, 2);
+		ft_putstr_fd("\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
 int	parse_scene(t_data *data, t_scene_data *scene)
 {
 	int		i;
@@ -93,27 +134,8 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 		while (j < (int) ft_strlen(l->line) - 1)
 		{
 			scene->map[i][j] = l->line[j];
-			if (ft_strchr("NSEW", l->line[j]))
-			{
-				if (data->game->found_player == 0)
-					data->game->found_player = 1;
-				else
-				{
-					free_map_partially(scene, i + 1);
-					free_basics(data, scene);
-					ft_putstr_fd("Error\n2 players found\n", 2);	
-					return (1);
-				}
-				data->game->player->x = j;
-				data->game->player->y = i;
-			}
-			else if (ft_strchr(" 10", l->line[j]) == 0)
-			{
-				ft_putstr_fd("Error\nUnexpected character\n", 2);
-				ft_putchar_fd(l->line[j], 2);
-				ft_putstr_fd("\n", 2);
+			if (parse_scene_operations(data, i, j, l->line[j]))
 				return (1);
-			}
 			j++;
 		}
 		while (j < scene->width)
@@ -127,10 +149,5 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 		i++;
 	}
 	scene->map[i] = 0;
-	if (data->game->found_player == 0)
-	{
-		ft_putstr_fd("Error\nNo player found\n", 2);
-		return (1);
-	}
 	return (0);
 }
