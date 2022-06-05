@@ -6,11 +6,39 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:07 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/05 23:16:07 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 00:13:19 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	parse_texture_paths(t_scene_data *scene, t_line *l)
+{
+	size_t	i;
+	char	*aux;
+
+	scene->cardinal[0] = ft_strdup("NO ");
+	scene->cardinal[1] = ft_strdup("SO ");
+	scene->cardinal[2] = ft_strdup("WE ");
+	scene->cardinal[3] = ft_strdup("EA ");
+	i = 0;
+	while (i < 4)
+	{
+		aux = l->line;
+		if (ft_strncmp(aux, scene->cardinal[i], 3) == 0)
+		{
+			aux += 3;
+			scene->textures[i] = ft_substr(aux, 0, ft_strchr(aux, '\n') - aux);
+		}
+		else
+			return (free_cardinals(scene));
+		l = l->next;
+		i++;
+	}
+	l = l->next;
+	free_cardinals(scene);
+	return (0);
+}
 
 int	parse_colors_2(char *line)
 {

@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/03 23:45:10 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 00:14:01 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int		copy_map(t_scene_data *scene);
 int		read_scene(t_data *data,t_scene_data *scene);
 int		get_scene_size(t_scene_data *scene, long *scene_width, long *scene_height);
 int		parse_scene(t_data *data, t_scene_data *scene);
+int	parse_texture_paths(t_scene_data *scene, t_line *l);
 
 //read_checks_1.c
 int		check_texture_names(t_scene_data *scene);

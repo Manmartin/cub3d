@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/05 23:27:20 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 00:13:32 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	read_scene(t_data *data, t_scene_data *scene)
 	return (0);
 }
 
+/*
 int	parse_texture_paths(t_scene_data *scene, t_line *l)
 {
 	size_t	i;
@@ -65,6 +66,7 @@ int	parse_texture_paths(t_scene_data *scene, t_line *l)
 	free_cardinals(scene);
 	return (0);
 }
+*/
 
 int	parse_scene_previous_checks(t_data *data, t_scene_data *scene)
 {
@@ -108,6 +110,8 @@ int	parse_scene_operations(t_data *data, int i, int j, char c)
 	}
 	else if (ft_strchr(" 10", c) == 0)
 	{
+		free_map_partially(data->scene, i + 1);
+		free_basics(data, data->scene);
 		ft_putstr_fd("Error\nUnexpected character\n", 2);
 		ft_putchar_fd(c, 2);
 		ft_putstr_fd("\n", 2);
@@ -116,35 +120,42 @@ int	parse_scene_operations(t_data *data, int i, int j, char c)
 	return (0);
 }
 
+int	parse_scene_loop(t_data *data, t_scene_data *scene, char *line, int i)
+{
+	int	j;
+
+	j = 0;
+	scene->map[i] = malloc(sizeof(char) * scene->width + 1);
+	while (j < (int) ft_strlen(line) - 1)
+	{
+		scene->map[i][j] = line[j];
+		if (parse_scene_operations(data, i, j, line[j]))
+			return (1);
+		j++;
+	}
+	while (j < scene->width)
+	{
+		scene->map[i][j] = ' ';
+		j++;
+	}
+	scene->map[i][j] = 0;
+	return (0);
+}
+
 int	parse_scene(t_data *data, t_scene_data *scene)
 {
 	int		i;
-	int		j;
 	t_line	*l;
 
 	i = 0;
-	j = 0;
 	l = scene->map_start;
 	if (parse_scene_previous_checks(data, scene))
 		return (1);
 	scene->map = malloc(sizeof(char *) * (scene->height + 1));
 	while (l)
 	{
-		scene->map[i] = malloc(sizeof(char) * scene->width + 1);
-		while (j < (int) ft_strlen(l->line) - 1)
-		{
-			scene->map[i][j] = l->line[j];
-			if (parse_scene_operations(data, i, j, l->line[j]))
-				return (1);
-			j++;
-		}
-		while (j < scene->width)
-		{
-			scene->map[i][j] = ' ';
-			j++;
-		}
-		scene->map[i][j] = 0;
-		j = 0;
+		if (parse_scene_loop(data, scene, l->line, i))
+			return (1);
 		l = l->next;
 		i++;
 	}
