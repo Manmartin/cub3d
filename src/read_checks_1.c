@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int		check_texture_names(t_scene_data *scene)
+int	check_texture_names(t_scene_data *scene)
 {
 	int		i;
 	char	*aux;
@@ -8,18 +8,11 @@ int		check_texture_names(t_scene_data *scene)
 	i = 0;
 	while (i < 4)
 	{
-		if (scene->textures[i] == 0 || ft_strlen(scene->textures[i]) <=4)
-		{
-			//freezers
-			ft_putstr_fd("Empty texture name\n", 2);
+		if (scene->textures[i] == 0 || ft_strlen(scene->textures[i]) <= 4)
 			return (1);
-		}
 		aux = scene->textures[i] + ft_strlen(scene->textures[i]) - 4;
 		if (ft_strncmp(".xpm", aux, 4) != 0)
-		{
-			ft_putstr_fd("Bad texture extensions. Make sure they are .xpm\n", 2);
 			return (1);
-		}
 		i++;
 	}
 	return (0);
@@ -46,7 +39,7 @@ int	get_scene_size(t_scene_data *scene, long *scene_width, long *scene_height)
 	return (0);
 }
 
-int check_input_schema_first(t_scene_data *scene)
+int	check_input_schema_first(t_scene_data *scene)
 {
 	int		i;
 	t_line	*l;
@@ -64,7 +57,7 @@ int check_input_schema_first(t_scene_data *scene)
 		return (1);
 	l = l->next;
 	scene->colors_start = l;
-	return (0);	
+	return (0);
 }
 
 int	check_input_schema(t_scene_data *scene)

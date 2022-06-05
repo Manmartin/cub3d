@@ -24,8 +24,8 @@ int main(int argc, char **argv)
 	atexit(leaks_check);
 	if (argc != 2)
 	{
-		ft_putstr_fd("Usage ./cub3d scene.cub\n", 1);
-		return (0);
+		ft_putstr_fd("Error\nUsage ./cub3d scene.cub\n", 1);
+		return (1);
 	}
 	data.scene = malloc(sizeof(t_scene_data));
 	data.scene->scene_path = argv[1];
@@ -36,19 +36,15 @@ int main(int argc, char **argv)
 	data.game->found_player = 0;
 	data.scene->valid_map = 1;
 	if (read_scene(&data,data.scene))
-	{
-		//ft_putstr_fd("--------->>>>> error reading map  <<<<-------\n", 2);
 		return (1);
-	}
 	check_valid_map(data.game->player->x, data.game->player->y, data.scene->map, data.scene);
 	print_map(data.scene);
 	if (data.scene->valid_map == 0)
 	{
-		ft_putstr_fd("Wrong map\n", 2);
+		ft_putstr_fd("Error\nWrong map\n", 2);
 		freezers(&data);
 		return (1);
 	}
-//	print_map(data.scene);
 	main_loop(&data);
 	return (0);
 }

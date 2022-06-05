@@ -42,7 +42,6 @@ int	free_textures(t_scene_data *scene)
 	return (1);
 }
 
-// return 1	in case it's used in parse_texture_paths() 
 int	free_cardinals(t_scene_data *scene)
 {
 	int	i;

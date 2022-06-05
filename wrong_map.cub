@@ -1,4 +1,4 @@
-NO ./wall2.xpm
+NO ./wall2.pm
 SO ./wall.xpm
 WE ./wall2.xpm
 EA ./wall.xpm

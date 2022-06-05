@@ -41,8 +41,6 @@ int	parse_colors(t_scene_data *scene, t_line *l)
 	}
 	else
 		return (1);
-//	printf("color ok\n");
-//	printf("%u, %u\n", scene->floor_color, scene->ceilling_color);
 	l = l->next;
 	return (0);
 }
