@@ -4,50 +4,24 @@ int	read_scene(t_data *data,t_scene_data *scene)
 {
 	if (copy_map(scene))
 		return (1);
-//	(void) data;
-	if (check_input_schema(scene))
+	if (check_input_schema(scene)) 
+	{
+		free_basics(data, scene);
+		ft_putstr_fd("Wrong map\n", 2);
 		return (1);
+	}
 	if (get_scene_size(scene, &scene->width, &scene->height))
 	{
+		free_basics(data, scene);
 		ft_putstr_fd("Wrong map\n", 2);
 		return (1);
 	}
 	if (parse_scene(data, scene))
+	{
 		return (1);
+	}
 //	print_map(scene);
 //	printf("width %li, height %li", scene->width, scene->height);
-	return (0);
-}
-
-int	copy_map(t_scene_data *scene)
-{
-	int		fd;
-	t_line 	*l;
-	char	*aux_line;
-
-	l = 0;
-	fd = open(scene->scene_path, O_RDONLY);
-	if (fd < 1)
-	{
-		perror("error opening scene file");
-		return (1);
-	}
-	aux_line = get_next_line(fd);
-	if (!aux_line)
-	{
-		ft_putstr_fd("Empty map\n", 2);
-		return (1);
-	}
-	scene->scene_list = malloc(sizeof(t_line *));
-	l = get_line_as_list_element(aux_line);
-	*(scene->scene_list) = l;
-	while (aux_line)
-	{
-		aux_line = get_next_line(fd);
-		l->next = get_line_as_list_element(aux_line);
-		l = l->next;
-	}
-	close(fd);
 	return (0);
 }
 
@@ -90,19 +64,13 @@ int		parse_scene(t_data *data, t_scene_data *scene)
 	l = scene->map_start;
 	if (parse_texture_paths(scene, *(scene->scene_list)) == 1)
 	{
-		//freezers?
+		free_basics(data, scene);
 		ft_putstr_fd("Error parsing texture paths\n", 2);
 		return (1);
 	}
-	if (check_texture_names(scene) == 1)
+	if (check_texture_names(scene) || parse_colors(scene, scene->colors_start))
 	{
-		//freezers?
-		return (1);
-	}
-	if (parse_colors(scene, scene->colors_start))
-	{
-		//freezers?
-		ft_putstr_fd("Error parsing colors, invalid map\n", 2);
+		free_basics(data, scene);
 		return (1);
 	}
 	scene->map = malloc(sizeof(char *) * (scene->height + 1));
@@ -118,6 +86,9 @@ int		parse_scene(t_data *data, t_scene_data *scene)
 					data->game->found_player = 1;
 				else
 				{
+				//	free_map(data->scene);
+					free_map_partially(scene, i + 1);
+					free_basics(data, scene);
 					//freezers?
 					ft_putstr_fd("Error: 2 players found\n", 2);	
 					return (1);

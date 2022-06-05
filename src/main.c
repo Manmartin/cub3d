@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 {
 	t_data	data;
 
-//	atexit(leaks_check);
+	atexit(leaks_check);
 	if (argc != 2)
 	{
 		ft_putstr_fd("Usage ./cub3d scene.cub\n", 1);

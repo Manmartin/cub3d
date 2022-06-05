@@ -24,7 +24,9 @@ SRC_F = 		main.c \
 				read_scene.c \
 				read_checks_1.c \
 				read_colors.c \
+				read_load_file.c \
 				freezers.c \
+				freezers_2.c \
 				check_map.c
 
 UTILS_F = 		utils.c \

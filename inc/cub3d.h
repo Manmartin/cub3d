@@ -155,6 +155,9 @@ int check_valid_map(long x, long y, char **map, t_scene_data *scene);
 void	free_raw_scene(t_scene_data *scene);
 int		free_cardinals(t_scene_data *scene);
 int		free_textures(t_scene_data *scene);
+void	free_basics(t_data *data, t_scene_data *scene);
+void	free_map(t_scene_data *scene);
+void	free_map_partially(t_scene_data *scene, int limit);
 
 /* utils */
 int		clean_exit(t_data *data);
