@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:15:42 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/05 23:15:42 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:22:12 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_basics(t_data *data, t_scene_data *scene)
 {
-	free_textures(scene);
+//	free_textures(scene);
 	free_raw_scene(scene);
 	free(data->scene);
 	free(data->game->player);

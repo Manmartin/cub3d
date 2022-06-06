@@ -1,7 +1,7 @@
-NO ./wall2.xpm
-SO ./wall.xpm
-WE ./wall2.xpm
-EA ./wall.xpm
+NO ./NO.xpm
+SO ./SO.xpm
+WE ./WE.xpm
+EA ./EA.xpm
 
 F 135,206,235
 C 188,129,95

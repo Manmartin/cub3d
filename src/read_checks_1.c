@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:09 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/05 23:16:10 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:34:10 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ int	get_scene_size(t_scene_data *scene, long *scene_width, long *scene_height)
 	t_line	*l;
 
 	l = scene->map_start;
+	*scene_height = 0;
+	*scene_width = 0;
 	while (l)
 	{
 		if (ft_strlen(l->line) == 0)
 			return (1);
 		if ((int) ft_strlen(l->line) > *scene_width)
 			*scene_width = ft_strlen(l->line);
-		if (*scene_width > 0 && l->line[*scene_width - 1] == '\n')
+		if (*scene_width == 1 && l->line[0] == '\n')
 			*scene_width -= 1;
 		l = l->next;
 		(*scene_height) += 1;
