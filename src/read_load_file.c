@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:12 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/05 23:16:13 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 21:03:11 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	copy_map(t_scene_data *scene)
 	fd = open(scene->scene_path, O_RDONLY);
 	if (fd < 1)
 	{
-		perror("error opening scene file");
+		perror("Error\nerror opening scene file");
 		return (1);
 	}
 	if (copy_map_loop(scene, fd))

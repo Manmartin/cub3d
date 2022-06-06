@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 09:25:17 by manuel            #+#    #+#             */
-/*   Updated: 2022/06/03 20:10:10 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 21:04:12 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void	load_textures(t_data *data)
 			&tex->width, &tex->height);
 		if (!tex->img)
 		{
-			printf("Error loading textures\n");
-			exit(0);
+			freezers(data);
+			ft_putstr_fd("Error\nError loading textures\n", 2);
+			exit(1);
 		}
 		tex->addr = mlx_get_data_addr(tex->img, 
 			&tex->bits_per_pixel, &tex->line_length, &tex->endian);

@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/06 20:23:16 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 21:04:58 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,22 @@
 int	read_scene(t_data *data, t_scene_data *scene)
 {
 	if (copy_map(scene))
+	{
+		free(data->scene);
+		free(data->game->player);
+		free(data->game);
 		return (1);
+	}
 	if (check_input_schema(scene))
 	{
 		free_basics(data, scene);
-		ft_putstr_fd("Error\nWrong map1\n", 2);
+		ft_putstr_fd("Error\nWrong map\n", 2);
 		return (1);
 	}
 	if (get_scene_size(scene, &scene->width, &scene->height))
 	{
 		free_basics(data, scene);
-		ft_putstr_fd("Error\nWrong map2\n", 2);
+		ft_putstr_fd("Error\nWrong map\n", 2);
 		return (1);
 	}
 	if (parse_scene(data, scene))

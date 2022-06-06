@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:15:39 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/05 23:15:39 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 21:00:07 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	free_textures(t_scene_data *scene)
 	while (i < 4)
 	{
 		free(scene->textures[i]);
+		scene->textures[i] = 0;
 		i++;
 	}
 	return (1);

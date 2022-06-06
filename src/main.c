@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/06 00:19:44 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:58:29 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-//	atexit(leaks_check);
+	atexit(leaks_check);
 	if (argc != 2)
 	{
 		ft_putstr_fd("Error\nUsage ./cub3d scene.cub\n", 1);
