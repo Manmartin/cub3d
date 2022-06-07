@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 09:25:17 by manuel            #+#    #+#             */
-/*   Updated: 2022/05/31 17:24:18 by manuel           ###   ########.fr       */
+/*   Updated: 2022/06/07 11:06:42 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	put_texture(t_data	*data, t_ray ray, int side)
 		wallX = (player->y + 0.5) + ray.length * ray.y;
 	wallX -= floor(wallX);
 	texX = floor(wallX * (double)(img.width));
-	if (side == EAST || side == NORTH)
+	if (side == WEST || side == SOUTH)
 		texX = img.width - texX - 1;
 	double	step;
 
@@ -73,7 +73,7 @@ void	put_texture(t_data	*data, t_ray ray, int side)
 		put_pixel(&data->img, ray.column, y, data->scene->floor_color);
 	while (y < ray.end)
 	{
-		int texY = (int)texPos & (img.height - 1);
+		int texY = texPos;
 		texPos += step;
 		int index = texY * img.width  + texX;
 		color = ((unsigned int *)(img.addr))[index];
@@ -85,5 +85,4 @@ void	put_texture(t_data	*data, t_ray ray, int side)
 	put_pixel(&data->img, ray.column, y, data->scene->ceilling_color);
 		y++;
 	}
-	
 }
