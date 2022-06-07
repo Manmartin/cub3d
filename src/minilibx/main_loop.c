@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:27:38 by manmarti          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/05/31 20:43:51 by albgarci         ###   ########.fr       */
+=======
+/*   Updated: 2022/06/07 11:20:21 by manmarti         ###   ########.fr       */
+>>>>>>> movement
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +41,6 @@ void	main_loop(t_data *data)
 	mlx_hook(data->win, 17, 0, clean_exit, data);
 	load_textures(data);
 	init_game_params(data);
-	//mlx_put_image_to_window(data->mlx, data->win, data->scene->tex_img[3].img,0,0);
 	render(data);
 	mlx_loop(data->mlx);
 }

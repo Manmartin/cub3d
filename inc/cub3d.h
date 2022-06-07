@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/06 00:14:01 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/07 12:28:17 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ typedef struct s_ray
 	int		step_y;
 
 }	t_ray;
+
+typedef struct s_tex
+{
+	double	wall_x;
+	double	tex_pos;
+	double	step;
+	int		tex_x;
+	int		tex_y;
+}	t_tex;
 
 typedef struct s_img {
 	void	*img;
