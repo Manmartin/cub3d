@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:27:38 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/07 12:32:06 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/06/07 13:06:22 by manmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,31 @@
 
 static void	init_game_params(t_data *data)
 {
+	char	player;
+
+	player = data->game->initial_orientation;
 	data->game->dir = malloc(sizeof(t_vec));
 	data->game->cam = malloc(sizeof(t_vec));
-	data->game->dir->x = 0;
-	data->game->dir->y = -1;
-	data->game->cam->x = 0.5;
-	data->game->cam->y = 0;
+	if (player == 'N')
+	{
+		*data->game->dir = init_vector(0, -1);
+		*data->game->cam = init_vector(0.5, 0);
+	}
+	else if (player == 'S')
+	{
+		*data->game->dir = init_vector(0, 1);
+		*data->game->cam = init_vector(-0.5, 0);
+	}
+	else if (player == 'E')
+	{
+		*data->game->dir = init_vector(1, 0);
+		*data->game->cam = init_vector(0, 0.5);
+	}
+	else
+	{
+		*data->game->dir = init_vector(-1, 0);
+		*data->game->cam = init_vector(0, -0.5);
+	}
 }
 
 void	main_loop(t_data *data)
