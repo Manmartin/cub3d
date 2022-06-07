@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/06 00:14:01 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/07 12:43:39 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_game {
 	t_vec	*dir;
 	t_vec	*cam;
 	int		found_player;
+	char	initial_orientation;
 }	t_game;
 
 typedef struct s_data

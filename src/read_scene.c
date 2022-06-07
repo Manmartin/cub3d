@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/06 21:04:58 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/07 12:44:12 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	parse_scene_operations(t_data *data, int i, int j, char c)
 		}
 		data->game->player->x = j;
 		data->game->player->y = i;
+		data->game->initial_orientation = c;
 	}
 	else if (ft_strchr(" 10", c) == 0)
 	{
