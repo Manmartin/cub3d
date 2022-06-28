@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/28 21:19:44 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:33:04 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	read_scene(t_data *data, t_scene_data *scene)
 		return (1);
 	}
 	*/
-	if (get_scene_size(scene, &scene->width, &scene->height))
+/*	if (get_scene_size(scene, &scene->width, &scene->height))
 	{
 		free_basics(data, scene);
 		ft_putstr_fd("Error\nWrong map\n", 2);
 		return (1);
-	}
+	}*/
 	if (parse_scene(data, scene))
 		return (1);
 	if (data->game->found_player == 0)
@@ -199,7 +199,7 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 //	l = scene->map_start;
 //	if (parse_scene_previous_checks(data, scene))
 //		return (1);
-	scene->map = malloc(sizeof(char *) * (scene->height + 1));
+//	scene->map = malloc(sizeof(char *) * (scene->height + 1));
 	scene->all_elements = 0;
 	scene->elements = base_elements();
 	while (l && scene->all_elements == 0)
@@ -226,20 +226,24 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 			j++;
 		}
 		l = l->next;
-		i++;
-		data = (void *) data;
 	}
-	j = 0;
-	while (scene->textures[j])
+	while (l && ft_strlen(l->line) == 1 && *l->line == '\n')
 	{
-		printf("%s\n", scene->textures[j]);
-		j++;
+		l = l->next;	
 	}
+	scene->map_start = l;
+	if (get_scene_size(scene, &scene->width, &scene->height))
+	{
+		free_basics(data, scene);
+		ft_putstr_fd("Error\nWrong map\n", 2);
+		return (1);
+	}
+	scene->map = malloc(sizeof(char *) * (scene->height + 1));
 	while (l)
 	{
-		printf("%s", l->line);
 		if (parse_scene_loop(data, scene, l->line, i))
 			return (1);
+		i++;
 		l = l->next;
 	}
 	scene->map[i] = 0;

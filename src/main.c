@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/28 21:20:04 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:33:27 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv)
 	main_starters(&data, argv);
 	if (read_scene(&data, data.scene))
 		return (1);
+	print_map(data.scene);
 /*	check_valid_map(data.game->player->x,
 		data.game->player->y, data.scene->map, data.scene);
 	print_map(data.scene);
@@ -51,7 +52,8 @@ int	main(int argc, char **argv)
 		freezers(&data);
 		return (1);
 	}
+*/
 	main_loop(&data);
-	*/
+	
 	return (0);
 }

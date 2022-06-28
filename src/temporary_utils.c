@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:27 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/05 23:17:14 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:03:49 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_map(t_scene_data *scene)
 	i = 0;
 	while (i < scene->height)
 	{
-		printf("%s\n", scene->map[i]);
+		printf("...%s\n", scene->map[i]);
 		i++;
 	}
 }

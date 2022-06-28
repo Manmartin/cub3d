@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:07 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/28 21:17:28 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:08:01 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	parse_colors(t_scene_data *scene, t_line *l)
 	}
 	else
 		return (1);
-	l = l->next;
 	if (ft_strncmp(l->line, "C ", 2) == 0)
 	{
 		scene->ceilling_color = parse_colors_2(l->line);
@@ -81,6 +80,5 @@ int	parse_colors(t_scene_data *scene, t_line *l)
 	}
 	else
 		return (1);
-	l = l->next;
 	return (0);
 }
