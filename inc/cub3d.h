@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/28 20:29:33 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 23:03:24 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int		free_textures(t_scene_data *scene);
 void	free_basics(t_data *data, t_scene_data *scene);
 void	free_map(t_scene_data *scene);
 void	free_map_partially(t_scene_data *scene, int limit);
+void	free_double_char(char **str);
 
 /* utils */
 int		clean_exit(t_data *data);

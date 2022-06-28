@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/28 22:33:04 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 23:04:45 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ int	read_scene(t_data *data, t_scene_data *scene)
 		free(data->game);
 		return (1);
 	}
-/*	if (check_input_schema(scene))
-	{
-		free_basics(data, scene);
-		ft_putstr_fd("Error\nWrong map\n", 2);
-		return (1);
-	}
-	*/
-/*	if (get_scene_size(scene, &scene->width, &scene->height))
-	{
-		free_basics(data, scene);
-		ft_putstr_fd("Error\nWrong map\n", 2);
-		return (1);
-	}*/
 	if (parse_scene(data, scene))
 		return (1);
 	if (data->game->found_player == 0)
@@ -44,64 +31,6 @@ int	read_scene(t_data *data, t_scene_data *scene)
 	return (0);
 }
 
-/*
-int	parse_texture_paths(t_scene_data *scene, char *str, int position)
-{
-//	size_t	i;
-//	char	*aux;
-
-	scene->cardinal[0] = ft_strdup("NO ");
-	scene->cardinal[1] = ft_strdup("SO ");
-	scene->cardinal[2] = ft_strdup("WE ");
-	scene->cardinal[3] = ft_strdup("EA ");
-
-//	i = 0;
-//	while (i < 4)
-//	{
-//		aux = l->line;
-//		if (ft_strncmp(aux, scene->cardinal[i], 3) == 0)
-//		{
-			scene->textures[position] = ft_strtrim(str + 3, " \n");
-		//	scene->textures[position] = aux;
-		//	scene->textures[i] = ft_substr(aux, 0, ft_strchr(aux, '\n') - aux);
-		}
-		else
-			return (1);
-	//		return (free_cardinals(scene));
-//		l = l->next;
-//		i++;
-//	}
-//	l = l->next;
-//	free_cardinals(scene);
-	return (0);
-}
-*/
-
-/*
-int	parse_scene_previous_checks(t_data *data, t_scene_data *scene)
-{
-	if (parse_texture_paths(scene, *(scene->scene_list)) == 1)
-	{
-		free_basics(data, scene);
-		ft_putstr_fd("Error\nBad texture paths\n", 2);
-		return (1);
-	}
-	if (check_texture_names(scene))
-	{
-		ft_putstr_fd("Error\nBad texture name. "
-			"Make sure they have a name a have .xpm extension.\n", 2);
-		free_basics(data, scene);
-		return (1);
-	}
-	if (parse_colors(scene, scene->colors_start))
-	{
-		ft_putstr_fd("Error\nBad colors.\n", 2);
-		free_basics(data, scene);
-		return (1);
-	}
-	return (0);
-}
-*/
 int	parse_scene_operations(t_data *data, int i, int j, char c)
 {
 	if (ft_strchr("NSEW", c))
@@ -123,8 +52,7 @@ int	parse_scene_operations(t_data *data, int i, int j, char c)
 	{
 		free_map_partially(data->scene, i + 1);
 		free_basics(data, data->scene);
-		ft_putstr_fd("Error\nUnexpected character\n", 2);
-		ft_putchar_fd(c, 2);
+		ft_putstr_fd("Error\nWrong map\n", 2);
 		ft_putstr_fd("\n", 2);
 		return (1);
 	}
@@ -196,15 +124,10 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 	i = 0;
 	j = 0;
 	l = *(scene->scene_list);
-//	l = scene->map_start;
-//	if (parse_scene_previous_checks(data, scene))
-//		return (1);
-//	scene->map = malloc(sizeof(char *) * (scene->height + 1));
 	scene->all_elements = 0;
 	scene->elements = base_elements();
 	while (l && scene->all_elements == 0)
 	{
-		printf("%s", l->line);
 		j = 0;
 		check_all_elements(scene);
 		while (j < 6)
@@ -214,19 +137,29 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 			else if (ft_strncmp(scene->elements[j], l->line,
 				ft_strlen(scene->elements[j])) == 0)
 			{
-			//	printf("found %s, %s", scene->elements[j], l->line);
 				free(scene->elements[j]);
 				scene->elements[j] = ft_strdup("OK");
 				if (j < 4)
 					scene->textures[j] = ft_strtrim(l->line + 3, " \n");
-				else
-					parse_colors(scene, l);
+				else if (parse_colors(scene, l))
+				{
+					ft_putstr_fd("Error\nBad colors.\n", 2);
+					free_basics(data, scene);
+					return (1);
+				}
 				break;
 			}
 			j++;
 		}
+		if (j == 6 && scene->all_elements == 0)
+		{
+			ft_putstr_fd("Error\nWrong map.\n", 2);
+			free_basics(data, scene);
+			return (1);
+		}
 		l = l->next;
 	}
+	free_double_char(scene->elements);
 	while (l && ft_strlen(l->line) == 1 && *l->line == '\n')
 	{
 		l = l->next;	
@@ -236,6 +169,13 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 	{
 		free_basics(data, scene);
 		ft_putstr_fd("Error\nWrong map\n", 2);
+		return (1);
+	}
+	if (check_texture_names(scene))
+	{
+		ft_putstr_fd("Error\nBad texture name. "
+			"Make sure they have a name a have .xpm extension.\n", 2);
+		free_basics(data, scene);
 		return (1);
 	}
 	scene->map = malloc(sizeof(char *) * (scene->height + 1));

@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:15:42 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/06 20:59:35 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 23:02:51 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,17 @@ void	free_map_partially(t_scene_data *scene, int limit)
 		i++;
 	}
 	free(scene->map);
+}
+
+void	free_double_char(char **str)
+{
+	char **aux;
+
+	aux = str;
+	while (aux && *aux)
+	{
+		free(*aux);
+		aux++;
+	}
+	free(str);
 }
