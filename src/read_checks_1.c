@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:09 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/06 21:00:53 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 19:30:30 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	get_scene_size(t_scene_data *scene, long *scene_width, long *scene_height)
 {
 	t_line	*l;
 
-	l = scene->map_start;
+	l = *scene->scene_list;
+//	l = scene->map_start;
 	*scene_height = 0;
 	*scene_width = 0;
 	while (l)
@@ -50,6 +51,7 @@ int	get_scene_size(t_scene_data *scene, long *scene_width, long *scene_height)
 	}
 	if (*scene_height < 3 || *scene_width < 3)
 		return (1);
+	printf("width: %li, height: %li\n", *scene_width, *scene_height);
 	return (0);
 }
 
@@ -73,7 +75,7 @@ int	check_input_schema_first(t_scene_data *scene)
 	scene->colors_start = l;
 	return (0);
 }
-
+/*
 int	check_input_schema(t_scene_data *scene)
 {
 	int		i;
@@ -99,3 +101,4 @@ int	check_input_schema(t_scene_data *scene)
 		return (1);
 	return (0);
 }
+*/

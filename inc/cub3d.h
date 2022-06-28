@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/07 12:50:14 by manmarti         ###   ########.fr       */
+/*   Updated: 2022/06/28 20:29:33 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ typedef struct s_scene_data
 	char	**map;
 	long	width;
 	long	height;
+	int		all_elements;
+	char	**elements;
 	int		valid_map;
 }	t_scene_data;
 

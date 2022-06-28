@@ -6,12 +6,12 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:07 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/06 00:13:19 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/28 21:17:28 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
+/*
 int	parse_texture_paths(t_scene_data *scene, t_line *l)
 {
 	size_t	i;
@@ -39,7 +39,7 @@ int	parse_texture_paths(t_scene_data *scene, t_line *l)
 	free_cardinals(scene);
 	return (0);
 }
-
+*/
 int	parse_colors_2(char *line)
 {
 	int		sep_rgb[3];
