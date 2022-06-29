@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/28 23:04:45 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/29 18:39:33 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	read_scene(t_data *data, t_scene_data *scene)
 	if (data->game->found_player == 0)
 	{
 		ft_putstr_fd("Error\nNo player found\n", 2);
+		free_map(data->scene);
+		free_basics(data, data->scene);
 		return (1);
 	}
 	return (0);
@@ -103,9 +105,10 @@ int	check_all_elements(t_scene_data *scene)
 	i = 0;
 	while (i < 6)
 	{
-		if (ft_strlen(scene->elements[i]) != 2 || ft_strncmp(scene->elements[i], "OK", 3))
+		if (ft_strlen(scene->elements[i]) != 2
+			|| ft_strncmp(scene->elements[i], "OK", 3))
 			break ;
-		i++;	
+		i++;
 	}
 	if (i == 6)
 	{
@@ -113,6 +116,36 @@ int	check_all_elements(t_scene_data *scene)
 		return (0);
 	}
 	return (1);
+}
+
+int	parse_previous_elements(t_data *data, t_scene_data *scene, t_line *l)
+{
+	int	j;
+
+	j = 0;
+	while (j < 6)
+	{
+		if (ft_strlen(l->line) == 1 && *l->line == '\n')
+			break ;
+		else if (ft_strncmp(scene->elements[j], l->line,
+				ft_strlen(scene->elements[j])) == 0)
+		{
+			free(scene->elements[j]);
+			scene->elements[j] = ft_strdup("OK");
+			if (j < 4)
+				scene->textures[j] = ft_strtrim(l->line + 3, " \n");
+			else if (parse_colors(scene, l))
+			{
+				ft_putstr_fd("Error\nBad colors.\n", 2);
+				free_double_char(scene->elements);
+				free_basics(data, scene);
+				return (1);
+			}
+			break ;
+		}
+		j++;
+	}
+	return (0);
 }
 
 int	parse_scene(t_data *data, t_scene_data *scene)
@@ -130,30 +163,12 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 	{
 		j = 0;
 		check_all_elements(scene);
-		while (j < 6)
-		{
-			if (ft_strlen(l->line) == 1 && *l->line == '\n')
-				break ;
-			else if (ft_strncmp(scene->elements[j], l->line,
-				ft_strlen(scene->elements[j])) == 0)
-			{
-				free(scene->elements[j]);
-				scene->elements[j] = ft_strdup("OK");
-				if (j < 4)
-					scene->textures[j] = ft_strtrim(l->line + 3, " \n");
-				else if (parse_colors(scene, l))
-				{
-					ft_putstr_fd("Error\nBad colors.\n", 2);
-					free_basics(data, scene);
-					return (1);
-				}
-				break;
-			}
-			j++;
-		}
+		if (parse_previous_elements(data, scene, l))
+			return (1);
 		if (j == 6 && scene->all_elements == 0)
 		{
 			ft_putstr_fd("Error\nWrong map.\n", 2);
+			free_double_char(scene->elements);
 			free_basics(data, scene);
 			return (1);
 		}
@@ -162,7 +177,7 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 	free_double_char(scene->elements);
 	while (l && ft_strlen(l->line) == 1 && *l->line == '\n')
 	{
-		l = l->next;	
+		l = l->next;
 	}
 	scene->map_start = l;
 	if (get_scene_size(scene, &scene->width, &scene->height))
