@@ -22,6 +22,7 @@ SRC_F = 		main.c \
 				read_utils.c \
 				read_utils_2.c \
 				read_scene.c \
+				parse_scene.c \
 				read_checks_1.c \
 				read_colors.c \
 				read_load_file.c \
