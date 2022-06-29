@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/29 18:39:33 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/29 21:19:12 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	parse_scene_operations(t_data *data, int i, int j, char c)
 	{
 		free_map_partially(data->scene, i + 1);
 		free_basics(data, data->scene);
-		ft_putstr_fd("Error\nWrong map\n", 2);
+		ft_putstr_fd("Error\nWrong map!!\n", 2);
 		ft_putstr_fd("\n", 2);
 		return (1);
 	}
@@ -118,67 +118,73 @@ int	check_all_elements(t_scene_data *scene)
 	return (1);
 }
 
-int	parse_previous_elements(t_data *data, t_scene_data *scene, t_line *l)
+int	bad_colors_error(t_data *data, t_scene_data *scene)
+{
+	ft_putstr_fd("Error\nBad colors.\n", 2);
+	free_double_char(scene->elements);
+	free_basics(data, scene);
+	return (1);
+}
+
+int	parse_previous_elements_1(t_data *data, t_scene_data *scene, t_line **l, int *j)
+{
+	while (*j < 6)
+	{
+		if (ft_strlen((*l)->line) == 1 && *(*l)->line == '\n')
+			break ;
+		else if (ft_strncmp(scene->elements[*j], (*l)->line,
+				ft_strlen(scene->elements[*j])) == 0)
+		{
+			free(scene->elements[*j]);
+			scene->elements[*j] = ft_strdup("OK");
+			if (*j < 4)
+				scene->textures[*j] = ft_strtrim((*l)->line + 3, " \n");
+			else if (parse_colors(scene, *l))
+				return (bad_colors_error(data, scene));
+			break ;
+		}
+		(*j)++;
+	}
+	return (0);
+}
+
+int	parse_previous_elements(t_data *data, t_scene_data *scene, t_line **l)
 {
 	int	j;
 
 	j = 0;
-	while (j < 6)
+	scene->all_elements = 0;
+	scene->elements = base_elements();
+	while (*l && scene->all_elements == 0)
 	{
-		if (ft_strlen(l->line) == 1 && *l->line == '\n')
-			break ;
-		else if (ft_strncmp(scene->elements[j], l->line,
-				ft_strlen(scene->elements[j])) == 0)
+		j = 0;
+		check_all_elements(scene);
+		if (parse_previous_elements_1(data, scene, l, &j))
+			return (1);
+		if (j == 6 && scene->all_elements == 0)
 		{
-			free(scene->elements[j]);
-			scene->elements[j] = ft_strdup("OK");
-			if (j < 4)
-				scene->textures[j] = ft_strtrim(l->line + 3, " \n");
-			else if (parse_colors(scene, l))
-			{
-				ft_putstr_fd("Error\nBad colors.\n", 2);
-				free_double_char(scene->elements);
-				free_basics(data, scene);
-				return (1);
-			}
-			break ;
+			ft_putstr_fd("Error\nWrong map.", 2);
+			free_double_char(scene->elements);
+			free_basics(data, scene);
+			return (1);
 		}
-		j++;
+		*l = (*l)->next;
 	}
+	free_double_char(scene->elements);
 	return (0);
 }
 
 int	parse_scene(t_data *data, t_scene_data *scene)
 {
 	int		i;
-	int		j;
 	t_line	*l;
 
 	i = 0;
-	j = 0;
 	l = *(scene->scene_list);
-	scene->all_elements = 0;
-	scene->elements = base_elements();
-	while (l && scene->all_elements == 0)
-	{
-		j = 0;
-		check_all_elements(scene);
-		if (parse_previous_elements(data, scene, l))
-			return (1);
-		if (j == 6 && scene->all_elements == 0)
-		{
-			ft_putstr_fd("Error\nWrong map.\n", 2);
-			free_double_char(scene->elements);
-			free_basics(data, scene);
-			return (1);
-		}
-		l = l->next;
-	}
-	free_double_char(scene->elements);
+	if (parse_previous_elements(data, scene, &l))
+		return (1);
 	while (l && ft_strlen(l->line) == 1 && *l->line == '\n')
-	{
 		l = l->next;
-	}
 	scene->map_start = l;
 	if (get_scene_size(scene, &scene->width, &scene->height))
 	{
