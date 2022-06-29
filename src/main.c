@@ -6,16 +6,11 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/29 18:27:05 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/06/29 22:36:59 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	leaks_check(void)
-{
-	system("leaks cub3d");
-}
 
 void	main_starters(t_data *data, char **argv)
 {
@@ -33,7 +28,6 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-//	atexit(leaks_check);
 	if (argc != 2)
 	{
 		ft_putstr_fd("Error\nUsage ./cub3d scene.cub\n", 1);
