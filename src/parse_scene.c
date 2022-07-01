@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 22:32:01 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/29 22:32:13 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 16:11:02 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ int	parse_scene(t_data *data, t_scene_data *scene)
 	}
 	if (check_texture_names(scene))
 	{
-		ft_putstr_fd("Error\nBad texture name. "
-			"Make sure they have a name a have .xpm extension.\n", 2);
 		free_basics(data, scene);
 		return (1);
 	}
