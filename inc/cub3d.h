@@ -6,7 +6,7 @@
 /*   By: manmarti <manmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:24:49 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/29 22:34:44 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 17:36:15 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,6 @@ int		parse_colors_2(char *line);
 
 //read_utils_2.c
 t_line	*get_line_as_list_element(char *aux_line);
-
-//temporary_utils.c
-void	print_map(t_scene_data *scene);
 
 void	freezers(t_data *data);
 char	*get_next_line(int fd);

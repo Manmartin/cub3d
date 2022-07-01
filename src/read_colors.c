@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:07 by albgarci          #+#    #+#             */
-/*   Updated: 2022/07/01 17:12:06 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 17:46:33 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	color_rgb_verification(char *line)
 
 	i = 0;
 	if (ft_strchr(line, ',') == 0)
-		sub = ft_strdup(line);
+		sub = ft_strtrim(line, " \n");
 	else
 		sub = ft_substr(line, 0, ft_strchr(line, ',') - line);
-	if (ft_strlen(sub) == 0 || *sub == '-' || ft_strlen(sub) > 4)
+	if (ft_strlen(sub) == 0 || *sub == '-' || ft_strlen(sub) > 3)
 	{
 		free(sub);
 		return (1);
