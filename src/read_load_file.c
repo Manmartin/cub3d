@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:12 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/06 21:03:11 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 17:58:27 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	copy_map_loop(t_scene_data *scene, int fd)
 	aux_line = get_next_line(fd);
 	if (!aux_line)
 	{
-		ft_putstr_fd("Empty map\n", 2);
+		ft_putstr_fd("Error\nEmpty map\n", 2);
 		return (1);
 	}
 	scene->scene_list = malloc(sizeof(t_line *));
@@ -42,7 +42,7 @@ int	copy_map(t_scene_data *scene)
 	fd = open(scene->scene_path, O_RDONLY);
 	if (fd < 1)
 	{
-		perror("Error\nerror opening scene file");
+		perror("Error\nError opening scene file");
 		return (1);
 	}
 	if (copy_map_loop(scene, fd))

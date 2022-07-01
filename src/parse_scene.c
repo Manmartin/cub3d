@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 22:32:01 by albgarci          #+#    #+#             */
-/*   Updated: 2022/07/01 17:21:06 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 18:02:00 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	parse_previous_elements(t_data *data, t_scene_data *scene, t_line **l)
 			return (1);
 		if (j == 6 && scene->all_elements == 0)
 		{
-			ft_putstr_fd("Error\nWrong map.\n", 2);
+			ft_putstr_fd("Error\nWrong elements.\n", 2);
 			free_double_char(scene->elements);
 			free_basics(data, scene);
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:15 by albgarci          #+#    #+#             */
-/*   Updated: 2022/06/29 22:36:05 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 18:27:48 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	parse_scene_operations(t_data *data, int i, int j, char c)
 		{
 			free_map_partially(data->scene, i + 1);
 			free_basics(data, data->scene);
-			ft_putstr_fd("Error\n2 players found\n", 2);
+			ft_putstr_fd("Error\nMore than 1 player found\n", 2);
 			return (1);
 		}
 		data->game->player->x = j;
@@ -54,8 +54,7 @@ int	parse_scene_operations(t_data *data, int i, int j, char c)
 	{
 		free_map_partially(data->scene, i + 1);
 		free_basics(data, data->scene);
-		ft_putstr_fd("Error\nWrong map!!\n", 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("Error\nWrong map\n", 2);
 		return (1);
 	}
 	return (0);
@@ -66,6 +65,11 @@ int	parse_scene_loop(t_data *data, t_scene_data *scene, char *line, int i)
 	int	j;
 
 	j = 0;
+	if (ft_strlen(line) == 1)
+	{
+		ft_putstr_fd("Error\nWrong map\n", 2);
+		exit(1);
+	}
 	scene->map[i] = malloc(sizeof(char) * scene->width + 1);
 	while (j < (int) ft_strlen(line) - 1)
 	{

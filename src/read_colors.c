@@ -6,7 +6,7 @@
 /*   By: albgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 23:16:07 by albgarci          #+#    #+#             */
-/*   Updated: 2022/07/01 17:46:33 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 18:06:05 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ int	zero_to_255_check(char *line)
 	return (0);
 }
 
-int	color_rgb_verification(char *line)
+int	color_rgb_verification(char *line, int step)
 {
 	char	*sub;
 	size_t	i;
 
 	i = 0;
-	if (ft_strchr(line, ',') == 0)
+	if (ft_strchr(line, ',') != 0 && step == 3)
+		return (1);
+	else if (ft_strchr(line, ',') == 0)
 		sub = ft_strtrim(line, " \n");
 	else
 		sub = ft_substr(line, 0, ft_strchr(line, ',') - line);
@@ -64,17 +66,17 @@ int	parse_colors_2(char *line)
 		return (-1);
 	while (aux && *aux == ' ')
 		aux++;
-	if (color_rgb_verification(aux))
+	if (color_rgb_verification(aux, 1))
 		return (-1);
 	sep_rgb[0] = ft_atoi(aux);
 	aux = ft_strchr(aux, ',');
 	if (!aux || ft_strlen(aux) <= 1 || *(++aux) == ',')
 		return (-1);
-	if (color_rgb_verification(aux))
+	if (color_rgb_verification(aux, 2))
 		return (-1);
 	sep_rgb[1] = ft_atoi(aux);
 	aux = ft_strchr(aux, ',');
-	if (!aux || ft_strlen(aux) <= 2 || color_rgb_verification(++aux))
+	if (!aux || ft_strlen(aux) <= 2 || color_rgb_verification(++aux, 3))
 		return (-1);
 	sep_rgb[2] = ft_atoi(aux);
 	color = ((sep_rgb[0] << 16) | (sep_rgb[1] << 8) | sep_rgb[2]);
