@@ -6,7 +6,7 @@
 /*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:18:56 by manmarti          #+#    #+#             */
-/*   Updated: 2022/06/29 22:36:59 by albgarci         ###   ########.fr       */
+/*   Updated: 2022/07/01 17:12:51 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	main_starters(t_data *data, char **argv)
 	data->game->found_player = 0;
 	data->scene->valid_map = 1;
 }
-
+	
 int	main(int argc, char **argv)
 {
 	t_data	data;
